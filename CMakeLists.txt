@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_C_FLAGS "-Wall -Werror -std=c17")
-set(CMAKE_CXX_FLAGS "-Wall -Werror")
+set(CMAKE_C_FLAGS "-Wall -Werror -std=c17 -DCEXCEPTION_USE_CONFIG_FILE")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(leocc)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 find_package(cmocka REQUIRED)
-include_directories(${CMOCKA_INCLUDE_DIR})
+include_directories(
+    BEFORE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
+    CException/lib
+    ${CMOCKA_INCLUDE_DIR}
+)
 # CException
 add_library(cexception CException/lib/CException.c)
 # leocc

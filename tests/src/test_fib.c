@@ -4,9 +4,8 @@
 #include <setjmp.h>
 #include <cmocka.h>
 #include <stdbool.h>
-#include "include/error_codes.h"
-#include "include/fib.h"
-#include "CException/lib/CException.h"
+#include "exceptions.h"
+#include "fib.h"
 
 void test_fib_returns_fibonacci_number() {
     assert_true(fib(0) == 0);

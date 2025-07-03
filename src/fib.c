@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "CException/lib/CException.h"
-#include "include/error_codes.h"
-#include "include/fib.h"
+#include "exceptions.h"
+#include "fib.h"
 
 int fib(int n) {
     if (n < 0) {
