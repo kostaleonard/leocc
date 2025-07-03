@@ -1,0 +1,3 @@
+[submodule "CException"]
+	path = CException
+	url = git@github.com:ThrowTheSwitch/CException.git
