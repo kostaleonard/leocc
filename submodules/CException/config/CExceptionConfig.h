@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define CEXCEPTION_NO_CATCH_HANDLER(id) \
-    printf("Uncaught Throw! ID: %u at %s:%d\n", (id), __FILE__, __LINE__); \
+    printf("Uncaught Throw! Error code: %u at %s:%d\n", (id), __FILE__, __LINE__); \
     exit((int)(id))
 
 #endif

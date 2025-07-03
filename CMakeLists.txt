@@ -6,7 +6,9 @@ find_package(cmocka REQUIRED)
 include_directories(
     BEFORE
     ${CMAKE_CURRENT_SOURCE_DIR}
+    # So that CException can see its own header:
     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/CException/CException/lib
+    # So that CException can see our configuration file:
     ${CMAKE_CURRENT_SOURCE_DIR}/submodules/CException/config
     ${CMOCKA_INCLUDE_DIR}
 )
