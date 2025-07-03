@@ -6,4 +6,4 @@
  */
 int fib(int n);
 
-#endif
+#endif  // INCLUDE_FIB_H_

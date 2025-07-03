@@ -5,13 +5,13 @@ project(leocc)
 find_package(cmocka REQUIRED)
 include_directories(
     BEFORE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
-    CException/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/CException/CException/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/submodules/CException/config
     ${CMOCKA_INCLUDE_DIR}
 )
 # CException
-add_library(cexception CException/lib/CException.c)
+add_library(cexception submodules/CException/CException/lib/CException.c)
 # leocc
 add_executable(leocc src/leocc.c)
 add_library(fib src/fib.c)
@@ -20,7 +20,5 @@ target_link_libraries(leocc fib)
 # Tests
 add_executable(tests tests/main.c)
 add_library(test_fib tests/src/test_fib.c)
-target_link_libraries(test_fib fib)
-target_link_libraries(test_fib cexception)
-target_link_libraries(tests test_fib)
-target_link_libraries(tests cmocka)
+target_link_libraries(test_fib fib cexception)
+target_link_libraries(tests test_fib cmocka)

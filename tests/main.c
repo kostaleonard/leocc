@@ -8,7 +8,7 @@
 #include <setjmp.h>
 #include <cmocka.h>
 #include <stdbool.h>
-#include "test_fib.h"
+#include "tests/include/test_fib.h"
 
 int main(int argc, char **argv) {
     const struct CMUnitTest tests[] = {

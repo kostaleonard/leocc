@@ -4,7 +4,7 @@
 
 #ifndef INCLUDE_EXCEPTIONS_H_
 #define INCLUDE_EXCEPTIONS_H_
-#include "CException.h"
+#include "submodules/CException/CException/lib/CException.h"
 
 typedef enum error_code_t {
     SUCCESS,

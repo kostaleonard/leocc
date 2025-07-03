@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "exceptions.h"
-#include "fib.h"
+#include "include/exceptions.h"
+#include "include/fib.h"
 
 int fib(int n) {
     if (n < 0) {

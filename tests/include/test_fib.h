@@ -5,4 +5,4 @@ void test_fib_returns_fibonacci_number();
 
 void test_fib_throws_error_on_negative_input();
 
-#endif
+#endif  // TESTS_INCLUDE_TEST_FIB_H_
