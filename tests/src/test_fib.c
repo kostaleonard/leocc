@@ -15,8 +15,6 @@ void test_fib_returns_fibonacci_number() {
     assert_true(fib(4) == 3);
     assert_true(fib(5) == 5);
     assert_true(fib(15) == 610);
-    // TODO remove debugging
-    fib(-5);
 }
 
 void test_fib_throws_error_on_negative_input() {
