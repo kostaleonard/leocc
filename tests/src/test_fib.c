@@ -4,7 +4,9 @@
 #include <setjmp.h>
 #include <cmocka.h>
 #include <stdbool.h>
+#include "include/error_codes.h"
 #include "include/fib.h"
+#include "CException/lib/CException.h"
 
 void test_fib_returns_fibonacci_number() {
     assert_true(fib(0) == 0);
@@ -14,9 +16,18 @@ void test_fib_returns_fibonacci_number() {
     assert_true(fib(4) == 3);
     assert_true(fib(5) == 5);
     assert_true(fib(15) == 610);
+    // TODO remove debugging
+    fib(-5);
 }
 
 void test_fib_throws_error_on_negative_input() {
-    // TODO
-    assert_true(false);
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        fib(-1);
+    } Catch(e) {
+        exception_thrown = true;
+        assert_true(FAILURE_INVALID_INPUT == e);
+    }
+    assert_true(exception_thrown);
 }
