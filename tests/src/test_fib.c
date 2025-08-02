@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "include/exceptions.h"
 #include "include/fib.h"
+#include "tests/include/test_fib.h"
 
 void test_fib_returns_fibonacci_number() {
     assert_true(fib(0) == 0);
