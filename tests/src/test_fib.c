@@ -25,7 +25,7 @@ void test_fib_throws_error_on_negative_input() {
         fib(-1);
     } Catch(e) {
         exception_thrown = true;
-        assert_true(FAILURE_INVALID_INPUT == e);
     }
     assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
 }
