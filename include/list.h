@@ -56,7 +56,7 @@ typedef struct list_t {
  * May be NULL.
  */
 list_t *list_create(
-    free_function_t *free_function, compare_function_t *compare);
+    free_function_t *free_function, compare_function_t *compare_function);
 
 /**
  * @brief Frees all memory associated with the list.
