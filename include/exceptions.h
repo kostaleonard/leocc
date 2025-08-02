@@ -11,6 +11,7 @@ typedef enum error_code_t {
     FAILURE_COULD_NOT_MALLOC,
     FAILURE_INVALID_INPUT,
     FAILURE_NOT_IMPLEMENTED,
+    FAILURE_EMPTY_LIST,
 } error_code_t;
 
 #endif  // INCLUDE_EXCEPTIONS_H_
