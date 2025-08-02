@@ -23,3 +23,11 @@ void list_destroy(list_t *list) {
     // TODO list_remove_head until empty
     free(list);
 }
+
+void list_prepend(list_t *list, void *data) {
+    Throw(FAILURE_NOT_IMPLEMENTED);
+}
+
+void list_remove_head(list_t *list) {
+    Throw(FAILURE_NOT_IMPLEMENTED);
+}

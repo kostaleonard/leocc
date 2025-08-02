@@ -20,6 +20,10 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_create_returns_list),
         cmocka_unit_test(test_list_create_fails_on_invalid_input),
         cmocka_unit_test(test_list_destroy_fails_on_invalid_input),
+        cmocka_unit_test(test_list_prepend_adds_node),
+        cmocka_unit_test(test_list_prepend_fails_on_invalid_input),
+        cmocka_unit_test(test_list_remove_head_deletes_first_node),
+        cmocka_unit_test(test_list_remove_head_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
