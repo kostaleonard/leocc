@@ -82,6 +82,14 @@ size_t list_length(list_t *list);
 void list_prepend(list_t *list, void *data);
 
 /**
+ * @brief Appends a node containing the given data to the list.
+ * 
+ * @param data The data to place in the new node. The user should already have
+ * allocated this memory.
+ */
+void list_append(list_t *list, void *data);
+
+/**
  * @brief Removes the first node from the list and frees its memory.
  */
 void list_remove_head(list_t *list);

@@ -19,6 +19,10 @@ void test_list_prepend_adds_node_to_front();
 
 void test_list_prepend_fails_on_invalid_input();
 
+void test_list_append_adds_node_to_back();
+
+void test_list_append_fails_on_invalid_input();
+
 void test_list_remove_head_deletes_first_node();
 
 void test_list_remove_head_fails_on_invalid_input();

@@ -72,6 +72,14 @@ void list_prepend(list_t *list, void *data) {
     }
 }
 
+void list_append(list_t *list, void *data) {
+    if (NULL == list || NULL == data) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    list_prepend(list, data);
+    list->head = list->head->next;
+}
+
 void list_remove_head(list_t *list) {
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);

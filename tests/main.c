@@ -26,6 +26,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_length_fails_on_invalid_input),
         cmocka_unit_test(test_list_prepend_adds_node_to_front),
         cmocka_unit_test(test_list_prepend_fails_on_invalid_input),
+        cmocka_unit_test(test_list_append_adds_node_to_back),
+        cmocka_unit_test(test_list_append_fails_on_invalid_input),
         cmocka_unit_test(test_list_remove_head_deletes_first_node),
         cmocka_unit_test(test_list_remove_head_fails_on_invalid_input),
     };
