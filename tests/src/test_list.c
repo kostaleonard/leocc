@@ -148,6 +148,7 @@ void test_list_prepend_fails_on_invalid_input() {
     }
     assert_true(exception_thrown);
     assert_true(FAILURE_INVALID_INPUT == e);
+    free(x);
     list_destroy(list);
 }
 

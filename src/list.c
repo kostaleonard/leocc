@@ -21,7 +21,9 @@ void list_destroy(list_t *list) {
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    // TODO list_remove_head until empty
+    while (!list_is_empty(list)) {
+        list_remove_head(list);
+    }
     free(list);
 }
 
