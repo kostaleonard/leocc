@@ -64,6 +64,16 @@ list_t *list_create(
 void list_destroy(list_t *list);
 
 /**
+ * @brief Returns true if the list is empty, false otherwise.
+ */
+bool list_is_empty(list_t *list);
+
+/**
+ * @brief Returns the number of nodes in the list.
+ */
+size_t list_length(list_t *list);
+
+/**
  * @brief Prepends a node containing the given data to the list.
  * 
  * @param data The data to place in the new node. The user should already have

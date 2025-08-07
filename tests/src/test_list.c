@@ -46,7 +46,62 @@ void test_list_destroy_fails_on_invalid_input() {
     assert_true(FAILURE_INVALID_INPUT == e);
 }
 
-void test_list_prepend_adds_node() {
+void test_list_is_empty_identifies_empty_list() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    assert_true(list_is_empty(list));
+    int *x = malloc(sizeof(int));
+    assert_true(NULL != x);
+    *x = 1;
+    list_prepend(list, x);
+    assert_true(!list_is_empty(list));
+    list_remove_head(list);
+    assert_true(list_is_empty(list));
+    list_destroy(list);
+}
+
+void test_list_is_empty_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_is_empty(NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}
+
+void test_list_length_returns_length() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    for (int idx = 1; idx <= 4; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_prepend(list, x);
+        assert_true(idx == list_length(list));
+    }
+    for (int idx = 1; idx <= 4; idx++) {
+        list_remove_head(list);
+        assert_true(4 - idx == list_length(list));
+    }
+    list_destroy(list);
+}
+
+void test_list_length_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_length(NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}
+
+void test_list_prepend_adds_node_to_front() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
     assert_true(NULL != list);
     int *x = malloc(sizeof(int));
@@ -99,10 +154,10 @@ void test_list_prepend_fails_on_invalid_input() {
 void test_list_remove_head_deletes_first_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
     assert_true(NULL != list);
-    for (int i = 1; i <= 4; i++) {
+    for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
-        *x = i;
+        *x = idx;
         list_prepend(list, x);
     }
     assert_true(4 == *(int *)list->head->data);

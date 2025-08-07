@@ -25,7 +25,6 @@ void list_destroy(list_t *list) {
     free(list);
 }
 
-// TODO put in header and test
 bool list_is_empty(list_t *list) {
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);
@@ -33,7 +32,6 @@ bool list_is_empty(list_t *list) {
     return NULL == list->head;
 }
 
-// TODO put in header and test
 size_t list_length(list_t *list) {
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);
