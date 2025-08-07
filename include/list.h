@@ -99,4 +99,41 @@ void list_remove_head(list_t *list);
  */
 void list_remove_tail(list_t *list);
 
+/**
+ * @brief Removes the node from the list in which it is a member.
+ * 
+ * @param node A node in a list. If node is not a member of a list_t, the
+ * behavior of this function is undefined.
+ */
+void list_remove_node(node_t *node);
+
+/**
+ * @brief Removes the node at index from the list.
+ * 
+ * @param idx The index of the node to remove, where index 0 is the head.
+ * Negative indices are allowed. Index -1 is the tail of the list. This function
+ * will throw an error if the given index exceeds the number of elements in the
+ * list in either positive or negative direction.
+ */
+void list_remove_at(list_t *list, int idx);
+
+/**
+ * @brief Returns the first node whose data matches the given data.
+ * 
+ * @param data The data with which to compare each node's data.
+ * @return node_t* The first node whose data matches the given data. Matches are
+ * determined using the list's compare_function.
+ */
+node_t *list_find(list_t *list, void *data);
+
+/**
+ * @brief Sorts the list based on its compare_function.
+ */
+void list_sort(list_t *list);
+
+/**
+ * @brief Applies the function to every node in the list.
+ */
+void list_foreach(list_t *list, void (*func)(node_t *));
+
 #endif  // INCLUDE_LIST_H_

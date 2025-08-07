@@ -114,3 +114,24 @@ void list_remove_tail(list_t *list) {
     list->head = list->head->prev;
     list_remove_head(list);
 }
+
+void list_remove_node(node_t *node) {
+    // TODO
+}
+
+void list_remove_at(list_t *list, int idx) {
+    // TODO
+}
+
+node_t *list_find(list_t *list, void *data) {
+    // TODO
+    return NULL;
+}
+
+void list_sort(list_t *list) {
+    // TODO
+}
+
+void list_foreach(list_t *list, void (*func)(node_t *)) {
+    // TODO
+}
