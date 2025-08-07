@@ -103,3 +103,14 @@ void list_remove_head(list_t *list) {
         free(old_head);
     }
 }
+
+void list_remove_tail(list_t *list) {
+    if (NULL == list) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        Throw(FAILURE_EMPTY_LIST);
+    }
+    list->head = list->head->prev;
+    list_remove_head(list);
+}

@@ -94,4 +94,9 @@ void list_append(list_t *list, void *data);
  */
 void list_remove_head(list_t *list);
 
+/**
+ * @brief Removes the last node from the list and frees its memory.
+ */
+void list_remove_tail(list_t *list);
+
 #endif  // INCLUDE_LIST_H_

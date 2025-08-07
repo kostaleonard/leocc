@@ -241,11 +241,82 @@ void test_list_remove_head_deletes_first_node() {
     list_destroy(list);
 }
 
+void test_list_remove_head_fails_on_empty_list() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_remove_head(list);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_EMPTY_LIST == e);
+    list_destroy(list);
+}
+
 void test_list_remove_head_fails_on_invalid_input() {
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
     Try {
         list_remove_head(NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}
+
+void test_list_remove_tail_deletes_last_node() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    for (int idx = 1; idx <= 4; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_prepend(list, x);
+    }
+    assert_true(4 == *(int *)list->head->data);
+    assert_true(3 == *(int *)list->head->next->data);
+    assert_true(1 == *(int *)list->head->prev->data);
+    list_remove_tail(list);
+    assert_true(4 == *(int *)list->head->data);
+    assert_true(3 == *(int *)list->head->next->data);
+    assert_true(2 == *(int *)list->head->prev->data);
+    list_remove_tail(list);
+    assert_true(4 == *(int *)list->head->data);
+    assert_true(3 == *(int *)list->head->next->data);
+    assert_true(3 == *(int *)list->head->prev->data);
+    list_remove_tail(list);
+    assert_true(4 == *(int *)list->head->data);
+    assert_true(4 == *(int *)list->head->next->data);
+    assert_true(4 == *(int *)list->head->prev->data);
+    list_remove_tail(list);
+    assert_true(NULL == list->head);
+    list_destroy(list);
+}
+
+void test_list_remove_tail_fails_on_empty_list() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_remove_tail(list);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_EMPTY_LIST == e);
+    list_destroy(list);
+}
+
+void test_list_remove_tail_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_remove_tail(NULL);
     } Catch(e) {
         exception_thrown = true;
     }
