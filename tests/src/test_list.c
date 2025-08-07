@@ -323,3 +323,58 @@ void test_list_remove_tail_fails_on_invalid_input() {
     assert_true(exception_thrown);
     assert_true(FAILURE_INVALID_INPUT == e);
 }
+
+void test_list_remove_node_deletes_node() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    for (int idx = 1; idx <= 4; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    list_remove_node(list, list->head->next);
+    assert_true(1 == *(int *)list->head->data);
+    assert_true(3 == *(int *)list->head->next->data);
+    assert_true(4 == *(int *)list->head->next->next->data);
+    assert_true(1 == *(int *)list->head->next->prev->data);
+    list_remove_node(list, list->head);
+    assert_true(3 == *(int *)list->head->data);
+    assert_true(4 == *(int *)list->head->next->data);
+    assert_true(4 == *(int *)list->head->prev->data);
+    list_remove_node(list, list->head->prev);
+    assert_true(3 == *(int *)list->head->data);
+    assert_true(3 == *(int *)list->head->next->data);
+    assert_true(3 == *(int *)list->head->prev->data);
+    list_remove_node(list, list->head->next);
+    assert_true(list_is_empty(list));
+    list_destroy(list);
+}
+
+void test_list_remove_node_fails_on_invalid_input() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    int *x = malloc(sizeof(int));
+    assert_true(NULL != x);
+    *x = 1;
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_remove_node(list, NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    list_append(list, x);
+    exception_thrown = false;
+    e = SUCCESS;
+    Try {
+        list_remove_node(NULL, list->head);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    list_destroy(list);
+}

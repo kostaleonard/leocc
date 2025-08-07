@@ -35,4 +35,8 @@ void test_list_remove_tail_fails_on_empty_list();
 
 void test_list_remove_tail_fails_on_invalid_input();
 
+void test_list_remove_node_deletes_node();
+
+void test_list_remove_node_fails_on_invalid_input();
+
 #endif  // TESTS_INCLUDE_TEST_LIST_H_

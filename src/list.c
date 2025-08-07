@@ -115,8 +115,18 @@ void list_remove_tail(list_t *list) {
     list_remove_head(list);
 }
 
-void list_remove_node(node_t *node) {
-    // TODO
+void list_remove_node(list_t *list, node_t *node) {
+    if (NULL == list || NULL == node) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (node == list->head) {
+        list_remove_head(list);
+    } else {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+        list->free_function(node->data);
+        free(node);
+    }
 }
 
 void list_remove_at(list_t *list, int idx) {

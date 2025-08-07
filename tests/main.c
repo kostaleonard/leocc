@@ -34,6 +34,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_remove_tail_deletes_last_node),
         cmocka_unit_test(test_list_remove_tail_fails_on_empty_list),
         cmocka_unit_test(test_list_remove_tail_fails_on_invalid_input),
+        cmocka_unit_test(test_list_remove_node_deletes_node),
+        cmocka_unit_test(test_list_remove_node_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

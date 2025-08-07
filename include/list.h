@@ -102,10 +102,10 @@ void list_remove_tail(list_t *list);
 /**
  * @brief Removes the node from the list in which it is a member.
  * 
- * @param node A node in a list. If node is not a member of a list_t, the
- * behavior of this function is undefined.
+ * @param node A node in a list. If node is not a member of list, the behavior
+ * of this function is undefined.
  */
-void list_remove_node(node_t *node);
+void list_remove_node(list_t *list, node_t *node);
 
 /**
  * @brief Removes the node at index from the list.
