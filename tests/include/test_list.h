@@ -39,4 +39,10 @@ void test_list_remove_node_deletes_node();
 
 void test_list_remove_node_fails_on_invalid_input();
 
+void test_list_remove_at_deletes_node();
+
+void test_list_remove_at_fails_on_index_out_of_bounds();
+
+void test_list_remove_at_fails_on_invalid_input();
+
 #endif  // TESTS_INCLUDE_TEST_LIST_H_

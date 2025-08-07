@@ -130,7 +130,36 @@ void list_remove_node(list_t *list, node_t *node) {
 }
 
 void list_remove_at(list_t *list, int idx) {
-    // TODO
+    // TODO this logic is wrong.
+    if (NULL == list) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
+    }
+    if (0 == idx) {
+        list_remove_head(list);
+    } else if (-1 == idx) {
+        list_remove_tail(list);
+    } else if (idx > 0) {
+        // idx is 1 or higher.
+        node_t *node = list->head->next;
+        for (int i = 1; i < idx; i++, node = node->next) {
+            if (node == list->head) {
+                Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
+            }
+        }
+        list_remove_node(list, node);
+    } else {
+        // idx is -2 or lower.
+        node_t *node = list->head->prev->prev;
+        for (int i = -2; i > idx; i--, node = node->prev) {
+            if (node == list->head->prev) {
+                Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
+            }
+        }
+        list_remove_node(list, node);
+    }
 }
 
 node_t *list_find(list_t *list, void *data) {

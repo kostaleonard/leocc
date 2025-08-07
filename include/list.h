@@ -136,4 +136,6 @@ void list_sort(list_t *list);
  */
 void list_foreach(list_t *list, void (*func)(node_t *));
 
+// TODO list_clear -- remove all nodes but keep list
+
 #endif  // INCLUDE_LIST_H_
