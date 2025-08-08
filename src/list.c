@@ -21,10 +21,17 @@ void list_destroy(list_t *list) {
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);
     }
+    list_clear(list);
+    free(list);
+}
+
+void list_clear(list_t *list) {
+    if (NULL == list) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
     while (!list_is_empty(list)) {
         list_remove_head(list);
     }
-    free(list);
 }
 
 bool list_is_empty(list_t *list) {
@@ -144,7 +151,12 @@ void list_remove_at(list_t *list, int idx) {
     } else if (idx > 0) {
         // idx is 1 or higher.
         node_t *node = list->head->next;
-        for (int i = 1; i < idx; i++, node = node->next) {
+        // TODO test edge case for length 2
+        // if (node == list->head) {
+        //     Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
+        // }
+        for (int i = 1; i < idx; i++) {
+            node = node->next;
             if (node == list->head) {
                 Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
             }
@@ -153,7 +165,8 @@ void list_remove_at(list_t *list, int idx) {
     } else {
         // idx is -2 or lower.
         node_t *node = list->head->prev->prev;
-        for (int i = -2; i > idx; i--, node = node->prev) {
+        for (int i = -2; i > idx; i--) {
+            node = node->prev;
             if (node == list->head->prev) {
                 Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
             }

@@ -7,6 +7,10 @@ void test_list_create_fails_on_invalid_input();
 
 void test_list_destroy_fails_on_invalid_input();
 
+void test_list_clear_removes_nodes();
+
+void test_list_clear_fails_on_invalid_input();
+
 void test_list_is_empty_identifies_empty_list();
 
 void test_list_is_empty_fails_on_invalid_input();

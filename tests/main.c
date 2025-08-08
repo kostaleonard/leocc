@@ -20,6 +20,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_create_returns_list),
         cmocka_unit_test(test_list_create_fails_on_invalid_input),
         cmocka_unit_test(test_list_destroy_fails_on_invalid_input),
+        cmocka_unit_test(test_list_clear_removes_nodes),
+        cmocka_unit_test(test_list_clear_fails_on_invalid_input),
         cmocka_unit_test(test_list_is_empty_identifies_empty_list),
         cmocka_unit_test(test_list_is_empty_fails_on_invalid_input),
         cmocka_unit_test(test_list_length_returns_length),

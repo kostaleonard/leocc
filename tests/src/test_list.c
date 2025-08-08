@@ -46,6 +46,33 @@ void test_list_destroy_fails_on_invalid_input() {
     assert_true(FAILURE_INVALID_INPUT == e);
 }
 
+void test_list_clear_removes_nodes() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    assert_true(NULL != list);
+    for (int idx = 1; idx <= 4; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    assert_true(4 == list_length(list));
+    list_clear(list);
+    assert_true(list_is_empty(list));
+    list_destroy(list);
+}
+
+void test_list_clear_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_clear(NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}
+
 void test_list_is_empty_identifies_empty_list() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
     assert_true(NULL != list);
@@ -382,7 +409,7 @@ void test_list_remove_node_fails_on_invalid_input() {
 void test_list_remove_at_deletes_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
     assert_true(NULL != list);
-    for (int idx = 1; idx <= 4; idx++) {
+    for (int idx = 1; idx <= 10; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
         *x = idx;
@@ -393,15 +420,34 @@ void test_list_remove_at_deletes_node() {
     assert_true(3 == *(int *)list->head->next->data);
     assert_true(4 == *(int *)list->head->next->next->data);
     assert_true(1 == *(int *)list->head->next->prev->data);
-    list_remove_at(list, -3);
+    list_remove_at(list, 0);
     assert_true(3 == *(int *)list->head->data);
     assert_true(4 == *(int *)list->head->next->data);
-    assert_true(4 == *(int *)list->head->prev->data);
+    assert_true(10 == *(int *)list->head->prev->data);
+    list_remove_at(list, 2);
+    assert_true(3 == *(int *)list->head->data);
+    assert_true(4 == *(int *)list->head->next->data);
+    assert_true(6 == *(int *)list->head->next->next->data);
+    assert_true(4 == *(int *)list->head->next->next->prev->data);
+    list_remove_at(list, 6);
+    assert_true(3 == *(int *)list->head->data);
+    assert_true(9 == *(int *)list->head->prev->data);
+    assert_true(3 == *(int *)list->head->prev->next->data);
     list_remove_at(list, -1);
     assert_true(3 == *(int *)list->head->data);
-    assert_true(3 == *(int *)list->head->next->data);
-    assert_true(3 == *(int *)list->head->prev->data);
-    list_remove_at(list, 0);
+    assert_true(8 == *(int *)list->head->prev->data);
+    assert_true(3 == *(int *)list->head->prev->next->data);
+    list_remove_at(list, -4);
+    assert_true(3 == *(int *)list->head->data);
+    assert_true(6 == *(int *)list->head->next->data);
+    assert_true(3 == *(int *)list->head->next->prev->data);
+    list_remove_at(list, -4);
+    assert_true(6 == *(int *)list->head->data);
+    assert_true(7 == *(int *)list->head->next->data);
+    assert_true(6 == *(int *)list->head->prev->next->data);
+    list_remove_at(list, -1);
+    list_remove_at(list, -1);
+    list_remove_at(list, -1);
     assert_true(list_is_empty(list));
     list_destroy(list);
 }

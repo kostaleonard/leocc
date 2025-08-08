@@ -64,6 +64,11 @@ list_t *list_create(
 void list_destroy(list_t *list);
 
 /**
+ * @brief Removes all nodes from the list, but does not delete the list.
+ */
+void list_clear(list_t *list);
+
+/**
  * @brief Returns true if the list is empty, false otherwise.
  */
 bool list_is_empty(list_t *list);
@@ -135,7 +140,5 @@ void list_sort(list_t *list);
  * @brief Applies the function to every node in the list.
  */
 void list_foreach(list_t *list, void (*func)(node_t *));
-
-// TODO list_clear -- remove all nodes but keep list
 
 #endif  // INCLUDE_LIST_H_
