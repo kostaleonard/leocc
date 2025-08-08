@@ -488,6 +488,22 @@ void test_list_remove_at_fails_on_index_out_of_bounds() {
     }
     assert_true(exception_thrown);
     assert_true(FAILURE_INDEX_OUT_OF_BOUNDS == e);
+    list_clear(list);
+    for (int idx = 1; idx <= 1; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    exception_thrown = false;
+    e = SUCCESS;
+    Try {
+        list_remove_at(list, 1);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INDEX_OUT_OF_BOUNDS == e);
     list_destroy(list);
 }
 

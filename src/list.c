@@ -137,7 +137,6 @@ void list_remove_node(list_t *list, node_t *node) {
 }
 
 void list_remove_at(list_t *list, int idx) {
-    // TODO this logic is wrong.
     if (NULL == list) {
         Throw(FAILURE_INVALID_INPUT);
     }
@@ -148,13 +147,12 @@ void list_remove_at(list_t *list, int idx) {
         list_remove_head(list);
     } else if (-1 == idx) {
         list_remove_tail(list);
+    } else if (list->head == list->head->next) {
+        // If list is length 1, any other index is out of bounds.
+        Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
     } else if (idx > 0) {
-        // idx is 1 or higher.
+        // idx is 1 or higher and list is length >= 2.
         node_t *node = list->head->next;
-        // TODO test edge case for length 2
-        // if (node == list->head) {
-        //     Throw(FAILURE_INDEX_OUT_OF_BOUNDS);
-        // }
         for (int i = 1; i < idx; i++) {
             node = node->next;
             if (node == list->head) {
@@ -163,7 +161,7 @@ void list_remove_at(list_t *list, int idx) {
         }
         list_remove_node(list, node);
     } else {
-        // idx is -2 or lower.
+        // idx is -2 or lower and list is length >= 2.
         node_t *node = list->head->prev->prev;
         for (int i = -2; i > idx; i--) {
             node = node->prev;
