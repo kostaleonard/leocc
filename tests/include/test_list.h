@@ -55,4 +55,12 @@ void test_list_find_returns_null_on_no_match();
 
 void test_list_find_fails_on_invalid_input();
 
+void test_list_sort_arranges_data_low_to_high();
+
+void test_list_sort_does_nothing_on_empty_list();
+
+void test_list_sort_fails_if_compare_function_is_null();
+
+void test_list_sort_fails_on_invalid_input();
+
 #endif  // TESTS_INCLUDE_TEST_LIST_H_

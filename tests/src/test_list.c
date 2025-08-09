@@ -568,3 +568,80 @@ void test_list_find_fails_on_invalid_input() {
     free(y);
     list_destroy(list);
 }
+
+void test_list_sort_arranges_data_low_to_high() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    int *x = malloc(sizeof(int));
+    *x = 5;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 3;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 1;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 2;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 2;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 6;
+    list_append(list, x);
+    x = malloc(sizeof(int));
+    *x = 4;
+    list_append(list, x);
+    list_sort(list);
+    node_t *head = list->head;
+    assert_true(1 == *(int *)head->data);
+    assert_true(2 == *(int *)head->next->data);
+    assert_true(2 == *(int *)head->next->next->data);
+    assert_true(3 == *(int *)head->next->next->next->data);
+    assert_true(4 == *(int *)head->next->next->next->next->data);
+    assert_true(5 == *(int *)head->next->next->next->next->next->data);
+    assert_true(6 == *(int *)head->next->next->next->next->next->next->data);
+    assert_true(5 == *(int *)head->prev->data);
+    assert_true(4 == *(int *)head->prev->prev->data);
+    assert_true(3 == *(int *)head->prev->prev->prev->data);
+    assert_true(2 == *(int *)head->prev->prev->prev->prev->data);
+    assert_true(2 == *(int *)head->prev->prev->prev->prev->prev->data);
+    assert_true(1 == *(int *)head->prev->prev->prev->prev->prev->prev->data);
+    list_destroy(list);
+}
+
+void test_list_sort_does_nothing_on_empty_list() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    list_sort(list);
+    assert_true(list_is_empty(list));
+    list_destroy(list);
+}
+
+void test_list_sort_fails_if_compare_function_is_null() {
+    list_t *list = list_create(free, NULL);
+    int *x = malloc(sizeof(int));
+    *x = 1;
+    list_append(list, x);
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_sort(list);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    list_destroy(list);
+}
+
+void test_list_sort_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_sort(NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}

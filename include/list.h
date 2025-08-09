@@ -133,6 +133,9 @@ node_t *list_find(list_t *list, void *data);
 
 /**
  * @brief Sorts the list based on its compare_function.
+ * 
+ * If the list is empty, this function does nothing. If the list's
+ * compare_function is NULL, this function throws an error.
  */
 void list_sort(list_t *list);
 

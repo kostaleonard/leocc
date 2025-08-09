@@ -44,6 +44,10 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_find_returns_matching_node),
         cmocka_unit_test(test_list_find_returns_null_on_no_match),
         cmocka_unit_test(test_list_find_fails_on_invalid_input),
+        cmocka_unit_test(test_list_sort_arranges_data_low_to_high),
+        cmocka_unit_test(test_list_sort_does_nothing_on_empty_list),
+        cmocka_unit_test(test_list_sort_fails_if_compare_function_is_null),
+        cmocka_unit_test(test_list_sort_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

@@ -193,7 +193,13 @@ node_t *list_find(list_t *list, void *data) {
 }
 
 void list_sort(list_t *list) {
-    // TODO
+    if (NULL == list || NULL == list->compare_function) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        return;
+    }
+    // TODO I'm too lazy to write this right now.
 }
 
 void list_foreach(list_t *list, void (*func)(node_t *)) {
