@@ -203,5 +203,17 @@ void list_sort(list_t *list) {
 }
 
 void list_foreach(list_t *list, void (*func)(node_t *)) {
-    // TODO
+    if (NULL == list || NULL == func) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        return;
+    }
+    bool explored_head = false;
+    node_t *current = list->head;
+    while (!explored_head || current != list->head) {
+        func(current);
+        explored_head = true;
+        current = current->next;
+    }
 }

@@ -63,4 +63,8 @@ void test_list_sort_fails_if_compare_function_is_null();
 
 void test_list_sort_fails_on_invalid_input();
 
+void test_list_foreach_applies_function();
+
+void test_list_foreach_fails_on_invalid_input();
+
 #endif  // TESTS_INCLUDE_TEST_LIST_H_

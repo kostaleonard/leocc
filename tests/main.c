@@ -48,6 +48,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_sort_does_nothing_on_empty_list),
         cmocka_unit_test(test_list_sort_fails_if_compare_function_is_null),
         cmocka_unit_test(test_list_sort_fails_on_invalid_input),
+        cmocka_unit_test(test_list_foreach_applies_function),
+        cmocka_unit_test(test_list_foreach_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

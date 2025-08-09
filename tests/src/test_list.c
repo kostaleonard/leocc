@@ -645,3 +645,53 @@ void test_list_sort_fails_on_invalid_input() {
     assert_true(exception_thrown);
     assert_true(FAILURE_INVALID_INPUT == e);
 }
+
+static void double_int(node_t *node) {
+    if (NULL == node) {
+        return;
+    }
+    *(int *)node->data *= 2;
+}
+
+void test_list_foreach_applies_function() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    for (int idx = 1; idx <= 4; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    list_foreach(list, double_int);
+    assert_true(2 == *(int *)list->head->data);
+    assert_true(4 == *(int *)list->head->next->data);
+    assert_true(6 == *(int *)list->head->next->next->data);
+    assert_true(8 == *(int *)list->head->next->next->next->data);
+    assert_true(2 == *(int *)list->head->next->next->next->next->data);
+    list_destroy(list);
+}
+
+void test_list_foreach_fails_on_invalid_input() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    int *x = malloc(sizeof(int));
+    *x = 1;
+    list_append(list, x);
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_foreach(NULL, double_int);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    exception_thrown = false;
+    e = SUCCESS;
+    Try {
+        list_foreach(list, NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    list_destroy(list);
+}
