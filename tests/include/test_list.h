@@ -49,4 +49,10 @@ void test_list_remove_at_fails_on_index_out_of_bounds();
 
 void test_list_remove_at_fails_on_invalid_input();
 
+void test_list_find_returns_matching_node();
+
+void test_list_find_returns_null_on_no_match();
+
+void test_list_find_fails_on_invalid_input();
+
 #endif  // TESTS_INCLUDE_TEST_LIST_H_

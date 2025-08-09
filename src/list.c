@@ -174,7 +174,21 @@ void list_remove_at(list_t *list, int idx) {
 }
 
 node_t *list_find(list_t *list, void *data) {
-    // TODO
+    if (NULL == list || NULL == data) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        return NULL;
+    }
+    bool explored_head = false;
+    node_t *current = list->head;
+    while (!explored_head || current != list->head) {
+        if (0 == list->compare_function(data, current->data)) {
+            return current;
+        }
+        explored_head = true;
+        current = current->next;
+    }
     return NULL;
 }
 

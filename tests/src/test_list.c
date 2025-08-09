@@ -48,7 +48,6 @@ void test_list_destroy_fails_on_invalid_input() {
 
 void test_list_clear_removes_nodes() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -75,7 +74,6 @@ void test_list_clear_fails_on_invalid_input() {
 
 void test_list_is_empty_identifies_empty_list() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     assert_true(list_is_empty(list));
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
@@ -101,7 +99,6 @@ void test_list_is_empty_fails_on_invalid_input() {
 
 void test_list_length_returns_length() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -130,7 +127,6 @@ void test_list_length_fails_on_invalid_input() {
 
 void test_list_prepend_adds_node_to_front() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
     *x = 1;
@@ -153,7 +149,6 @@ void test_list_prepend_adds_node_to_front() {
 
 void test_list_prepend_fails_on_invalid_input() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
     *x = 1;
@@ -181,7 +176,6 @@ void test_list_prepend_fails_on_invalid_input() {
 
 void test_list_append_adds_node_to_back() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
     *x = 1;
@@ -213,7 +207,6 @@ void test_list_append_adds_node_to_back() {
 
 void test_list_append_fails_on_invalid_input() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
     *x = 1;
@@ -241,7 +234,6 @@ void test_list_append_fails_on_invalid_input() {
 
 void test_list_remove_head_deletes_first_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -270,7 +262,6 @@ void test_list_remove_head_deletes_first_node() {
 
 void test_list_remove_head_fails_on_empty_list() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
     Try {
@@ -297,7 +288,6 @@ void test_list_remove_head_fails_on_invalid_input() {
 
 void test_list_remove_tail_deletes_last_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -326,7 +316,6 @@ void test_list_remove_tail_deletes_last_node() {
 
 void test_list_remove_tail_fails_on_empty_list() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
     Try {
@@ -353,7 +342,6 @@ void test_list_remove_tail_fails_on_invalid_input() {
 
 void test_list_remove_node_deletes_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 4; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -380,7 +368,6 @@ void test_list_remove_node_deletes_node() {
 
 void test_list_remove_node_fails_on_invalid_input() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     int *x = malloc(sizeof(int));
     assert_true(NULL != x);
     *x = 1;
@@ -408,7 +395,6 @@ void test_list_remove_node_fails_on_invalid_input() {
 
 void test_list_remove_at_deletes_node() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     for (int idx = 1; idx <= 10; idx++) {
         int *x = malloc(sizeof(int));
         assert_true(NULL != x);
@@ -454,7 +440,6 @@ void test_list_remove_at_deletes_node() {
 
 void test_list_remove_at_fails_on_index_out_of_bounds() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
-    assert_true(NULL != list);
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
     Try {
@@ -517,4 +502,69 @@ void test_list_remove_at_fails_on_invalid_input() {
     }
     assert_true(exception_thrown);
     assert_true(FAILURE_INVALID_INPUT == e);
+}
+
+void test_list_find_returns_matching_node() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    for (int idx = 1; idx <= 10; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    int *y = malloc(sizeof(int));
+    *y = 1;
+    node_t *found = list_find(list, y);
+    assert_true(found == list->head);
+    *y = 9;
+    found = list_find(list, y);
+    assert_true(found == list->head->prev->prev);
+    free(y);
+    list_destroy(list);
+}
+
+void test_list_find_returns_null_on_no_match() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    for (int idx = 1; idx <= 10; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    int *y = malloc(sizeof(int));
+    *y = 11;
+    node_t *found = list_find(list, y);
+    assert_true(NULL == found);
+    *y = 1;
+    list_clear(list);
+    found = list_find(list, y);
+    assert_true(NULL == found);
+    free(y);
+    list_destroy(list);
+}
+
+void test_list_find_fails_on_invalid_input() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    int *y = malloc(sizeof(int));
+    *y = 1;
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_find(NULL, y);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    exception_thrown = false;
+    e = SUCCESS;
+    Try {
+        list_find(list, NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    free(y);
+    list_destroy(list);
 }

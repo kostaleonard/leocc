@@ -41,6 +41,9 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_remove_at_deletes_node),
         cmocka_unit_test(test_list_remove_at_fails_on_index_out_of_bounds),
         cmocka_unit_test(test_list_remove_at_fails_on_invalid_input),
+        cmocka_unit_test(test_list_find_returns_matching_node),
+        cmocka_unit_test(test_list_find_returns_null_on_no_match),
+        cmocka_unit_test(test_list_find_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

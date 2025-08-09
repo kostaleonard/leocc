@@ -126,8 +126,8 @@ void list_remove_at(list_t *list, int idx);
  * @brief Returns the first node whose data matches the given data.
  * 
  * @param data The data with which to compare each node's data.
- * @return node_t* The first node whose data matches the given data. Matches are
- * determined using the list's compare_function.
+ * @return node_t* The first node whose data matches the given data, or NULL if
+ * no match exists. Matches are determined using the list's compare_function.
  */
 node_t *list_find(list_t *list, void *data);
 
