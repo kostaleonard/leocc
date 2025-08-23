@@ -192,6 +192,11 @@ node_t *list_find(list_t *list, void *data) {
     return NULL;
 }
 
+size_t list_count(list_t *list, void *data) {
+    // TODO
+    return 0;
+}
+
 void list_sort(list_t *list) {
     if (NULL == list || NULL == list->compare_function) {
         Throw(FAILURE_INVALID_INPUT);

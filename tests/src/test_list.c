@@ -569,6 +569,74 @@ void test_list_find_fails_on_invalid_input() {
     list_destroy(list);
 }
 
+void test_list_count_returns_num_matches() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    for (int idx = 1; idx <= 10; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx % 3;
+        list_append(list, x);
+    }
+    int *y = malloc(sizeof(int));
+    *y = 1;
+    size_t matches = list_count(list, y);
+    assert_true(4 == matches);
+    *y = 2;
+    matches = list_count(list, y);
+    assert_true(3 == matches);
+    *y = 3;
+    matches = list_count(list, y);
+    assert_true(3 == matches);
+    free(y);
+    list_destroy(list);
+}
+
+void test_list_count_returns_zero_on_no_match() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    for (int idx = 1; idx <= 10; idx++) {
+        int *x = malloc(sizeof(int));
+        assert_true(NULL != x);
+        *x = idx;
+        list_append(list, x);
+    }
+    int *y = malloc(sizeof(int));
+    *y = 11;
+    size_t matches = list_count(list, y);
+    assert_true(0 == matches);
+    *y = 1;
+    list_clear(list);
+    matches = list_count(list, y);
+    assert_true(0 == matches);
+    free(y);
+    list_destroy(list);
+}
+
+void test_list_count_fails_on_invalid_input() {
+    list_t *list = list_create(free, (compare_function_t *)compare_ints);
+    int *y = malloc(sizeof(int));
+    *y = 1;
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        list_count(NULL, y);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    exception_thrown = false;
+    e = SUCCESS;
+    Try {
+        list_count(list, NULL);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+    free(y);
+    list_destroy(list);
+}
+
 void test_list_sort_arranges_data_low_to_high() {
     list_t *list = list_create(free, (compare_function_t *)compare_ints);
     int *x = malloc(sizeof(int));
@@ -608,6 +676,43 @@ void test_list_sort_arranges_data_low_to_high() {
     assert_true(2 == *(int *)head->prev->prev->prev->prev->prev->data);
     assert_true(1 == *(int *)head->prev->prev->prev->prev->prev->prev->data);
     list_destroy(list);
+}
+
+static size_t array_count(int *arr, int length, int target) {
+    size_t matches = 0;
+    for (size_t idx = 0; idx < length; idx++) {
+        if (arr[idx] == target) {
+            matches++;
+        }
+    }
+    return matches;
+}
+
+void test_list_sort_sorts_randomly_generated_values() {
+    size_t length = 20;
+    int *arr = malloc(length * sizeof(int));
+    for (size_t generation = 0; generation < 1000; generation++) {
+        srand(generation);
+        list_t *list = list_create(free, (compare_function_t *)compare_ints);
+        for (size_t idx = 0; idx < length; idx++) {
+            int *x = malloc(sizeof(int));
+            *x = rand() % 100;
+            arr[idx] = *x;
+            list_append(list, x);
+        }
+        list_sort(list);
+        for (node_t *current = list->head; current->next != list->head; current = current->next) {
+            assert_true(*(int *)current->data <= *(int *)current->next->data);
+        }
+        for (size_t idx = 0; idx < length; idx++) {
+            int target = arr[idx];
+            size_t count_in_array = array_count(arr, length, target);
+            size_t count_in_list = list_count(list, &target);
+            assert_true(count_in_array == count_in_list);
+        }
+        list_destroy(list);
+    }
+    free(arr);
 }
 
 void test_list_sort_does_nothing_on_empty_list() {

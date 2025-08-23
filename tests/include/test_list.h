@@ -55,7 +55,15 @@ void test_list_find_returns_null_on_no_match();
 
 void test_list_find_fails_on_invalid_input();
 
+void test_list_count_returns_num_matches();
+
+void test_list_count_returns_zero_on_no_match();
+
+void test_list_count_fails_on_invalid_input();
+
 void test_list_sort_arranges_data_low_to_high();
+
+void test_list_sort_sorts_randomly_generated_values();
 
 void test_list_sort_does_nothing_on_empty_list();
 

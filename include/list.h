@@ -131,6 +131,9 @@ void list_remove_at(list_t *list, int idx);
  */
 node_t *list_find(list_t *list, void *data);
 
+// TODO count the number of matches using compare function
+size_t list_count(list_t *list, void *data);
+
 /**
  * @brief Sorts the list based on its compare_function.
  * 
