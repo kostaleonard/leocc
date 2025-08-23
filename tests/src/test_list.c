@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <setjmp.h>
 #include <cmocka.h>
 #include <stdbool.h>
@@ -9,7 +10,7 @@
 #include "include/list.h"
 #include "tests/include/test_list.h"
 
-static int compare_ints(const int *num1, const int *num2) {
+static int compare_ints(int *num1, int *num2) {
     if (NULL == num1 || NULL == num2) {
         return 0;
     }
@@ -706,21 +707,31 @@ static size_t array_count(int *arr, int length, int target) {
     return matches;
 }
 
+#ifdef _WIN32
+static inline int rand_r(unsigned int *s) {
+    uint32_t x = *s ? *s : 0x9E3779B9u;
+    x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+    *s = x;
+    return (int)(x & 0x7fffffff);
+}
+#endif
+
 void test_list_sort_sorts_randomly_generated_values() {
     size_t length = 20;
     int *arr = malloc(length * sizeof(int));
     for (size_t generation = 0; generation < 1000; generation++) {
-        srand(generation);
         list_t *list = list_create(free, (compare_function_t *)compare_ints);
         for (size_t idx = 0; idx < length; idx++) {
             int *x = malloc(sizeof(int));
-            *x = rand() % 100;
+            *x = rand_r((unsigned int *)&generation) % 100;
             arr[idx] = *x;
             list_append(list, x);
         }
         list_sort(list);
         assert_true(list->head->prev->next == list->head);
-        for (node_t *current = list->head; current->next != list->head; current = current->next) {
+        for (node_t *current = list->head;
+            current->next != list->head;
+            current = current->next) {
             assert_true(*(int *)current->data <= *(int *)current->next->data);
             assert_true(current->next->prev == current);
         }

@@ -2,7 +2,11 @@
  * @brief The scanner takes a program text as input and outputs the tokens.
  */
 
-// TODO list_t: a circular doubly linked list (just for simplicity)
+#ifndef INCLUDE_SCANNER_H_
+#define INCLUDE_SCANNER_H_
+
+#include <stddef.h>
+#include "include/list.h"
 
 /**
  * @brief Returns a list of the tokens that compose the program.
@@ -13,3 +17,5 @@
  * is a token_t. Callers must free.
  */
 list_t *scan(char *program_text, size_t program_text_len);
+
+#endif  // INCLUDE_SCANNER_H_

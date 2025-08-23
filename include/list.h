@@ -31,8 +31,7 @@ typedef void (free_function_t(void *data));
  * data1 and data2 point to integers, one valid compare function would return
  * *data1 minus *data2.
  */
-typedef int (compare_function_t(const void *data1, const void *data2));
-// TODO undo const
+typedef int (compare_function_t(void *data1, void *data2));
 
 /**
  * @brief A circular doubly linked list.
