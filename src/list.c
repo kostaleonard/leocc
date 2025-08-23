@@ -193,8 +193,23 @@ node_t *list_find(list_t *list, void *data) {
 }
 
 size_t list_count(list_t *list, void *data) {
-    // TODO
-    return 0;
+    if (NULL == list || NULL == data) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    if (list_is_empty(list)) {
+        return 0;
+    }
+    size_t matches = 0;
+    bool explored_head = false;
+    node_t *current = list->head;
+    while (!explored_head || current != list->head) {
+        if (0 == list->compare_function(data, current->data)) {
+            matches++;
+        }
+        explored_head = true;
+        current = current->next;
+    }
+    return matches;
 }
 
 void list_sort(list_t *list) {

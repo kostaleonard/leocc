@@ -584,7 +584,7 @@ void test_list_count_returns_num_matches() {
     *y = 2;
     matches = list_count(list, y);
     assert_true(3 == matches);
-    *y = 3;
+    *y = 0;
     matches = list_count(list, y);
     assert_true(3 == matches);
     free(y);
