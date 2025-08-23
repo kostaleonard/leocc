@@ -31,7 +31,8 @@ typedef void (free_function_t(void *data));
  * data1 and data2 point to integers, one valid compare function would return
  * *data1 minus *data2.
  */
-typedef int (compare_function_t(void *data1, void *data2));
+typedef int (compare_function_t(const void *data1, const void *data2));
+// TODO undo const
 
 /**
  * @brief A circular doubly linked list.
@@ -131,7 +132,13 @@ void list_remove_at(list_t *list, int idx);
  */
 node_t *list_find(list_t *list, void *data);
 
-// TODO count the number of matches using compare function
+/**
+ * @brief Returns the number of nodes whose data matches the given data.
+ * 
+ * @param data The data with which to compare each node's data.
+ * @return size_t The number of nodes whose data matches the given data. Matches
+ * are determined using the list's compare_function.
+ */
 size_t list_count(list_t *list, void *data);
 
 /**

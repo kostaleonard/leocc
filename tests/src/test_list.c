@@ -9,11 +9,27 @@
 #include "include/list.h"
 #include "tests/include/test_list.h"
 
-int compare_ints(int *num1, int *num2) {
+static int compare_ints(const int *num1, const int *num2) {
     if (NULL == num1 || NULL == num2) {
         return 0;
     }
     return *num1 - *num2;
+}
+
+static void print_int_node(node_t *node) {
+    if (NULL == node) {
+        return;
+    }
+    printf("%d ", *(int *)node->data);
+}
+
+void int_list_print(list_t *list) {
+    if (NULL == list) {
+        return;
+    }
+    printf("[");
+    list_foreach(list, print_int_node);
+    printf("]\n");
 }
 
 void test_list_create_returns_list() {
@@ -669,12 +685,14 @@ void test_list_sort_arranges_data_low_to_high() {
     assert_true(4 == *(int *)head->next->next->next->next->data);
     assert_true(5 == *(int *)head->next->next->next->next->next->data);
     assert_true(6 == *(int *)head->next->next->next->next->next->next->data);
-    assert_true(5 == *(int *)head->prev->data);
-    assert_true(4 == *(int *)head->prev->prev->data);
-    assert_true(3 == *(int *)head->prev->prev->prev->data);
-    assert_true(2 == *(int *)head->prev->prev->prev->prev->data);
-    assert_true(2 == *(int *)head->prev->prev->prev->prev->prev->data);
-    assert_true(1 == *(int *)head->prev->prev->prev->prev->prev->prev->data);
+    node_t *tail = head->prev;
+    assert_true(6 == *(int *)tail->data);
+    assert_true(5 == *(int *)tail->prev->data);
+    assert_true(4 == *(int *)tail->prev->prev->data);
+    assert_true(3 == *(int *)tail->prev->prev->prev->data);
+    assert_true(2 == *(int *)tail->prev->prev->prev->prev->data);
+    assert_true(2 == *(int *)tail->prev->prev->prev->prev->prev->data);
+    assert_true(1 == *(int *)tail->prev->prev->prev->prev->prev->prev->data);
     list_destroy(list);
 }
 
@@ -701,8 +719,10 @@ void test_list_sort_sorts_randomly_generated_values() {
             list_append(list, x);
         }
         list_sort(list);
+        assert_true(list->head->prev->next == list->head);
         for (node_t *current = list->head; current->next != list->head; current = current->next) {
             assert_true(*(int *)current->data <= *(int *)current->next->data);
+            assert_true(current->next->prev == current);
         }
         for (size_t idx = 0; idx < length; idx++) {
             int target = arr[idx];

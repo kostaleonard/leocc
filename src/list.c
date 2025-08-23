@@ -212,6 +212,12 @@ size_t list_count(list_t *list, void *data) {
     return matches;
 }
 
+static int sort_compare_function(void *list, const void *pa, const void *pb) {
+    void *a = *(void **)pa;
+    void *b = *(void **)pb;
+    return ((list_t *)list)->compare_function(a, b);
+}
+
 void list_sort(list_t *list) {
     if (NULL == list || NULL == list->compare_function) {
         Throw(FAILURE_INVALID_INPUT);
@@ -219,7 +225,23 @@ void list_sort(list_t *list) {
     if (list_is_empty(list)) {
         return;
     }
-    // TODO I'm too lazy to write this right now.
+    size_t length = list_length(list);
+    void **arr = malloc(length * sizeof(void *));
+    if (NULL == arr) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
+    node_t *current = list->head;
+    for (size_t idx = 0; idx < length; idx++) {
+        arr[idx] = current->data;
+        current = current->next;
+    }
+    qsort_s(arr, length, sizeof(void *), sort_compare_function, list);
+    current = list->head;
+    for (size_t idx = 0; idx < length; idx++) {
+        current->data = arr[idx];
+        current = current->next;
+    }
+    free(arr);
 }
 
 void list_foreach(list_t *list, void (*func)(node_t *)) {
