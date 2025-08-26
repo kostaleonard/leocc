@@ -235,7 +235,11 @@ void list_sort(list_t *list) {
         arr[idx] = current->data;
         current = current->next;
     }
+#ifdef _WIN32
     qsort_s(arr, length, sizeof(void *), sort_compare_function, list);
+#else
+    qsort_r(arr, length, sizeof(void *), sort_compare_function, list);
+#endif
     current = list->head;
     for (size_t idx = 0; idx < length; idx++) {
         current->data = arr[idx];

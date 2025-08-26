@@ -708,6 +708,7 @@ static size_t array_count(int *arr, int length, int target) {
 }
 
 #ifdef _WIN32
+// Note: ChatGPT gave me this rand_r implementation and I am wary of it.
 static inline int rand_r(unsigned int *s) {
     uint32_t x = *s ? *s : 0x9E3779B9u;
     x ^= x << 13; x ^= x >> 17; x ^= x << 5;
