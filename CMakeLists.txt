@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_C_FLAGS "-Wall -Werror -std=c17 -DCEXCEPTION_USE_CONFIG_FILE")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_compile_definitions(_GNU_SOURCE)
 project(leocc)
 find_package(cmocka REQUIRED)
 include_directories(
