@@ -212,11 +212,19 @@ size_t list_count(list_t *list, void *data) {
     return matches;
 }
 
-static int sort_compare_function(void *list, const void *pa, const void *pb) {
+#ifdef _WIN32
+static int qsort_s_compare(void *list, const void *pa, const void *pb) {
     void *a = *(void **)pa;
     void *b = *(void **)pb;
     return ((list_t *)list)->compare_function(a, b);
 }
+#else
+static int qsort_r_compare(const void *pa, const void *pb, void *list) {
+    void *a = *(void **)pa;
+    void *b = *(void **)pb;
+    return ((list_t *)list)->compare_function(a, b);
+}
+#endif
 
 void list_sort(list_t *list) {
     if (NULL == list || NULL == list->compare_function) {
@@ -236,9 +244,9 @@ void list_sort(list_t *list) {
         current = current->next;
     }
 #ifdef _WIN32
-    qsort_s(arr, length, sizeof(void *), sort_compare_function, list);
+    qsort_s(arr, length, sizeof(void *), qsort_s_compare, list);
 #else
-    qsort_r(arr, length, sizeof(void *), sort_compare_function, list);
+    qsort_r(arr, length, sizeof(void *), qsort_r_compare, list);
 #endif
     current = list->head;
     for (size_t idx = 0; idx < length; idx++) {
