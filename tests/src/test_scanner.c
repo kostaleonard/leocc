@@ -13,6 +13,22 @@
 #include "include/token.h"
 #include "tests/include/test_scanner.h"
 
+static void print_token_node(node_t *node) {
+    if (NULL == node) {
+        return;
+    }
+    printf("%d ", ((token_t *)node->data)->kind);
+}
+
+void token_list_print(list_t *list) {
+    if (NULL == list) {
+        return;
+    }
+    printf("[");
+    list_foreach(list, print_token_node);
+    printf("]\n");
+}
+
 void test_scan_fails_on_invalid_input() {
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
