@@ -43,7 +43,7 @@ typedef struct literal_int_data_t {
  * 
  * If token is NULL, the function does nothing.
  */
-void free_token_t(token_t *token);
+void free_token(token_t *token);
 
 // TODO does this compare definition make sense?
 
