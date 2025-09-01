@@ -12,8 +12,8 @@
  * @brief Returns a list of the tokens that compose the program.
  * 
  * @param program_text The preprocessed program text.
- * @return list_t* A list of the tokens that compose the program. Each element
- * is a token_t. Callers must free.
+ * @return list_t* A list of the tokens that compose the program. Each node_t's
+ * void *data points to a token_t. Callers must free.
  */
 list_t *scan(char *program_text);
 

@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_foreach_fails_on_invalid_input),
         // test_scanner.h
         cmocka_unit_test(test_scan_fails_on_invalid_input),
+        cmocka_unit_test(test_scan_tokenizes_one_keyword),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
