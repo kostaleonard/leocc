@@ -5,6 +5,8 @@ void test_scan_fails_on_invalid_input();
 
 void test_scan_tokenizes_one_keyword();
 
-// TODO test whitespace does not matter
+void test_scan_tokenizes_several_keywords();
+
+void test_scan_tokenizes_skips_whitespace();
 
 #endif  // TESTS_INCLUDE_TEST_SCANNER_H_

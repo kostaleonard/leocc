@@ -31,4 +31,33 @@ void test_scan_tokenizes_one_keyword() {
     token_t *token = (token_t *)tokens->head->data;
     assert_true(TOKEN_KEYWORD_INT == token->kind);
     assert_true(NULL == token->data);
+    list_destroy(tokens);
+}
+
+void test_scan_tokenizes_several_keywords() {
+    list_t *tokens = scan("int int int");
+    assert_true(NULL != tokens);
+    assert_true(3 == list_length(tokens));
+    node_t *node = tokens->head;
+    do {
+        token_t *token = (token_t *)node->data;
+        assert_true(TOKEN_KEYWORD_INT == token->kind);
+        assert_true(NULL == token->data);
+        node = node->next;
+    } while (node != tokens->head);
+    list_destroy(tokens);
+}
+
+void test_scan_tokenizes_skips_whitespace() {
+    list_t *tokens = scan("int      int\t int\n\nint\n\tint\n\t\t");
+    assert_true(NULL != tokens);
+    assert_true(5 == list_length(tokens));
+    node_t *node = tokens->head;
+    do {
+        token_t *token = (token_t *)node->data;
+        assert_true(TOKEN_KEYWORD_INT == token->kind);
+        assert_true(NULL == token->data);
+        node = node->next;
+    } while (node != tokens->head);
+    list_destroy(tokens);
 }
