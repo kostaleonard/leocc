@@ -9,4 +9,6 @@ void test_scan_tokenizes_several_keywords();
 
 void test_scan_tokenizes_skips_whitespace();
 
+void test_scan_tokenizes_simple_program();
+
 #endif  // TESTS_INCLUDE_TEST_SCANNER_H_

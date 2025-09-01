@@ -6,6 +6,7 @@
 #include <cmocka.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "include/exceptions.h"
 #include "include/list.h"
 #include "include/scanner.h"
@@ -59,5 +60,64 @@ void test_scan_tokenizes_skips_whitespace() {
         assert_true(NULL == token->data);
         node = node->next;
     } while (node != tokens->head);
+    list_destroy(tokens);
+}
+
+void test_scan_tokenizes_simple_program() {
+    list_t *tokens = scan("int main() {\n\treturn 2017;\n}\n");
+    assert_true(NULL != tokens);
+    assert_true(9 == list_length(tokens));
+    node_t *node = tokens->head;
+    // int
+    token_t *token = (token_t *)node->data;
+    assert_true(TOKEN_KEYWORD_INT == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // main
+    token = (token_t *)node->data;
+    assert_true(TOKEN_IDENTIFIER == token->kind);
+    assert_true(NULL != token->data);
+    identifier_data_t *id_data = (identifier_data_t *)token->data;
+    assert_true(NULL != id_data->name);
+    assert_true(0 == strcmp(id_data->name, "main"));
+    node = node->next;
+    // (
+    token = (token_t *)node->data;
+    assert_true(TOKEN_LEFT_PAREN == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // )
+    token = (token_t *)node->data;
+    assert_true(TOKEN_RIGHT_PAREN == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // {
+    token = (token_t *)node->data;
+    assert_true(TOKEN_LEFT_BRACE == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // return
+    token = (token_t *)node->data;
+    assert_true(TOKEN_KEYWORD_RETURN == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // 2017
+    token = (token_t *)node->data;
+    assert_true(TOKEN_LITERAL_INT == token->kind);
+    assert_true(NULL != token->data);
+    literal_int_data_t *int_data = (literal_int_data_t *)token->data;
+    assert_true(2017 == int_data->val);
+    node = node->next;
+    // ;
+    token = (token_t *)node->data;
+    assert_true(TOKEN_SEMICOLON == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    // }
+    token = (token_t *)node->data;
+    assert_true(TOKEN_RIGHT_BRACE == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
+    assert_true(node == tokens->head);
     list_destroy(tokens);
 }
