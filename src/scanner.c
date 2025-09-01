@@ -16,13 +16,27 @@ list_t *scan(char *program_text) {
     list_t *tokens = list_create((free_function_t *)free_token, NULL);
     char *delim = " \t\n";
     char *saveptr;
+    // TODO this won't work because tokens can be right next to each other, not split by whitespace
     char *token_str = strtok_r(program_text_copy, delim, &saveptr);
     while (NULL != token_str) {
         token_t *token = calloc(1, sizeof(token_t));
         if (0 == strcmp(token_str, "int")) {
             token->kind = TOKEN_KEYWORD_INT;
+        } else if (0 == strcmp(token_str, "(")) {
+            token->kind = TOKEN_LEFT_PAREN;
+        } else if (0 == strcmp(token_str, ")")) {
+            token->kind = TOKEN_RIGHT_PAREN;
+        } else if (0 == strcmp(token_str, "{")) {
+            token->kind = TOKEN_LEFT_BRACE;
+        } else if (0 == strcmp(token_str, "}")) {
+            token->kind = TOKEN_RIGHT_BRACE;
+        } else if (0 == strcmp(token_str, "return")) {
+            token->kind = TOKEN_KEYWORD_RETURN;
+        } else if (0 == strcmp(token_str, ";")) {
+            token->kind = TOKEN_SEMICOLON;
         } else {
-            Throw(FAILURE_NOT_IMPLEMENTED);
+            // TODO alphanumeric? scan identifier
+            // TODO int literal? scan int
         }
         list_append(tokens, token);
         token_str = strtok_r(NULL, delim, &saveptr);
