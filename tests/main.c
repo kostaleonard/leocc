@@ -10,13 +10,14 @@
 #include <stdbool.h>
 #include "tests/include/test_fib.h"
 #include "tests/include/test_list.h"
+#include "tests/include/test_scanner.h"
 
 int main(int argc, char **argv) {
     const struct CMUnitTest tests[] = {
         // test_fib.h
         cmocka_unit_test(test_fib_returns_fibonacci_number),
         cmocka_unit_test(test_fib_throws_error_on_negative_input),
-        // test_list.c
+        // test_list.h
         cmocka_unit_test(test_list_create_returns_list),
         cmocka_unit_test(test_list_create_fails_on_invalid_input),
         cmocka_unit_test(test_list_destroy_fails_on_invalid_input),
@@ -54,6 +55,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_sort_fails_on_invalid_input),
         cmocka_unit_test(test_list_foreach_applies_function),
         cmocka_unit_test(test_list_foreach_fails_on_invalid_input),
+        // test_scanner.h
+        cmocka_unit_test(test_scan_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

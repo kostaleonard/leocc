@@ -5,6 +5,8 @@
 #ifndef INCLUDE_TOKEN_H_
 #define INCLUDE_TOKEN_H_
 
+// TODO make issue--add sample buggy programs to test compiler error output.
+
 // TODO eventually we should sort these tokens to be in a more logical order. I have them in the order they appear in our sample programs.
 typedef enum token_code_t {
     TOKEN_KEYWORD_INT,
@@ -18,6 +20,7 @@ typedef enum token_code_t {
     TOKEN_RIGHT_BRACE,
 } token_code_t;
 
+// TODO how do we think about token_create function(s)?
 typedef struct token_t {
     token_code_t kind;
     // TODO add these fields for error output?
