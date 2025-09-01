@@ -38,4 +38,21 @@ typedef struct literal_int_data_t {
     int val;
 } literal_int_data_t;
 
+/**
+ * @brief Frees token and all memory associated with it.
+ * 
+ * If token is NULL, the function does nothing.
+ */
+void free_token_t(token_t *token);
+
+// TODO does this compare definition make sense?
+
+/**
+ * @brief Returns 0 if the tokens have identical kind and data elements.
+ * 
+ * @return int 0 if the tokens have identical kind and data elements, some other
+ * number if not.
+ */
+//int compare_tokens(token_t *tok1, token_t *tok2);
+
 #endif  // INCLUDE_TOKEN_H_

@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include "tests/include/test_fib.h"
 #include "tests/include/test_list.h"
+#include "tests/include/test_token.h"
 #include "tests/include/test_scanner.h"
 
 int main(int argc, char **argv) {
@@ -55,6 +56,10 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_list_sort_fails_on_invalid_input),
         cmocka_unit_test(test_list_foreach_applies_function),
         cmocka_unit_test(test_list_foreach_fails_on_invalid_input),
+        // test_token.h
+        cmocka_unit_test(test_free_token_t_does_nothing_on_null_input),
+        cmocka_unit_test(test_free_token_t_frees_keyword_token),
+        cmocka_unit_test(test_free_token_t_frees_identifier_token),
         // test_scanner.h
         cmocka_unit_test(test_scan_fails_on_invalid_input),
         cmocka_unit_test(test_scan_tokenizes_one_keyword),
