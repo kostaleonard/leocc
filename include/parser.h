@@ -8,6 +8,7 @@
 #include "include/list.h"
 #include "include/ast.h"
 
+// TODO docstring
 ast_t *parse(list_t *tokens);
 
 #endif  // INCLUDE_PARSER_H_

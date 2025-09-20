@@ -20,13 +20,13 @@ TranslationUnit
             └── IntegerLiteral: 2017
 */
 
-typedef struct ast_t {
-    translation_unit_t *root;
-} ast_t;
-
 typedef struct translation_unit_t {
     list_t* declarations;
 } translation_unit_t;
+
+typedef struct ast_t {
+    translation_unit_t *root;
+} ast_t;
 
 typedef enum declaration_code_t {
     FUNCTION_DECLARATION,
@@ -56,10 +56,6 @@ typedef struct statement_t {
     void *data;
 } statement_t;
 
-typedef struct return_statement_data_t {
-    expr_t *return_value;
-} return_statement_data_t;
-
 typedef enum expr_code_t {
     EXPR_INT_LITERAL,
 } expr_code_t;
@@ -72,5 +68,9 @@ typedef struct expr_t {
 typedef struct expr_int_literal_data_t {
     int value;
 } expr_int_literal_data_t;
+
+typedef struct return_statement_data_t {
+    expr_t *return_value;
+} return_statement_data_t;
 
 #endif  // INCLUDE_AST_H_

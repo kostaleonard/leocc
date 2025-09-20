@@ -11,6 +11,7 @@
 #include "tests/include/test_list.h"
 #include "tests/include/test_token.h"
 #include "tests/include/test_scanner.h"
+#include "tests/include/test_parser.h"
 
 int main(int argc, char **argv) {
     const struct CMUnitTest tests[] = {
@@ -63,6 +64,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_scan_tokenizes_several_keywords),
         cmocka_unit_test(test_scan_skips_whitespace),
         cmocka_unit_test(test_scan_tokenizes_simple_program),
+        // test_parser.h
+        cmocka_unit_test(test_parse_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

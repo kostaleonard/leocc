@@ -5,6 +5,7 @@
 #ifndef INCLUDE_LIST_H_
 #define INCLUDE_LIST_H_
 #include <stdbool.h>
+#include <stddef.h>
 
 /**
  * @brief A doubly linked list node.
