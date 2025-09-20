@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "include/fib.h"
 
 int main(int argc, char **argv) {
-    printf("The 10th Fibonacci number is: %d\n", fib(10));
+    printf("Not yet implemented\n");
     return 0;
 }
