@@ -13,6 +13,7 @@ typedef enum error_code_t {
     FAILURE_NOT_IMPLEMENTED,
     FAILURE_EMPTY_LIST,
     FAILURE_INDEX_OUT_OF_BOUNDS,
+    FAILURE_INVALID_CHARACTER,
 } error_code_t;
 
 #endif  // INCLUDE_EXCEPTIONS_H_
