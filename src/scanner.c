@@ -94,12 +94,14 @@ list_t *scan(char *program_text) {
             token->kind = TOKEN_SEMICOLON;
             list_append(tokens, token);
             idx++;
-        } else if (0 == strncmp(program_text_copy + idx, "int", strlen("int"))) {
+        } else if (0 == strncmp(
+                program_text_copy + idx, "int", strlen("int"))) {
             token_t *token = calloc(1, sizeof(token_t));
             token->kind = TOKEN_KEYWORD_INT;
             list_append(tokens, token);
             idx += strlen("int");
-        } else if (0 == strncmp(program_text_copy + idx, "return", strlen("return"))) {
+        } else if (0 == strncmp(
+                program_text_copy + idx, "return", strlen("return"))) {
             token_t *token = calloc(1, sizeof(token_t));
             token->kind = TOKEN_KEYWORD_RETURN;
             list_append(tokens, token);
@@ -107,7 +109,6 @@ list_t *scan(char *program_text) {
         } else if (isdigit(c)) {
             token_t *token = scan_num(program_text_copy, &idx);
             list_append(tokens, token);
-            // TODO after scanning a num, if there are alpha characters immediately following, then it was possibly (definitely?) an invalid identifier like 100hello
         } else if (isalpha(c)) {
             token_t *token = scan_identifier(program_text_copy, &idx);
             list_append(tokens, token);
