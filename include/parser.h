@@ -8,7 +8,12 @@
 #include "include/list.h"
 #include "include/ast.h"
 
-// TODO docstring
+/**
+ * @brief Returns the abstract syntax tree from the list of tokens.
+ * 
+ * @param tokens The scanned tokens.
+ * @return ast_t* The abstract syntax tree. Callers must free.
+ */
 ast_t *parse(list_t *tokens);
 
 #endif  // INCLUDE_PARSER_H_
