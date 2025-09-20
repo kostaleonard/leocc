@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_scan_fails_on_invalid_input),
         cmocka_unit_test(test_scan_tokenizes_one_keyword),
         cmocka_unit_test(test_scan_tokenizes_several_keywords),
-        cmocka_unit_test(test_scan_tokenizes_skips_whitespace),
+        cmocka_unit_test(test_scan_skips_whitespace),
         cmocka_unit_test(test_scan_tokenizes_simple_program),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);

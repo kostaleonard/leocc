@@ -8,7 +8,6 @@
  * @brief Returns the numeric token and updates idx to the next unconsumed char.
  */
 static token_t *scan_num(char *text, size_t *idx) {
-    // TODO ignoring floats for now.
     char *endptr;
     int num = strtol(&text[*idx], &endptr, 10);
     token_t *token = calloc(1, sizeof(token_t));
@@ -27,11 +26,9 @@ static token_t *scan_num(char *text, size_t *idx) {
 }
 
 /**
- * @brief Returns the identifier token and updates idx to the next unconsumed
- * char.
+ * @brief Returns the identifier and updates idx to the next unconsumed char.
  */
 static token_t *scan_identifier(char *text, size_t *idx) {
-    // TODO ignoring underscores and other valid identifier chars for now.
     size_t start = *idx;
     size_t end = start;
     while (isalnum(text[end])) {
@@ -61,7 +58,7 @@ list_t *scan(char *program_text) {
         Throw(FAILURE_INVALID_INPUT);
     }
     size_t copy_buffer_len = strlen(program_text) + 1;
-    char *program_text_copy = malloc(copy_buffer_len);
+    char *program_text_copy = calloc(copy_buffer_len, sizeof(char));
     if (NULL == program_text_copy) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
@@ -110,6 +107,7 @@ list_t *scan(char *program_text) {
         } else if (isdigit(c)) {
             token_t *token = scan_num(program_text_copy, &idx);
             list_append(tokens, token);
+            // TODO after scanning a num, if there are alpha characters immediately following, then it was possibly (definitely?) an invalid identifier like 100hello
         } else if (isalpha(c)) {
             token_t *token = scan_identifier(program_text_copy, &idx);
             list_append(tokens, token);

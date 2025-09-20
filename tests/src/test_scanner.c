@@ -65,8 +65,8 @@ void test_scan_tokenizes_several_keywords() {
     list_destroy(tokens);
 }
 
-void test_scan_tokenizes_skips_whitespace() {
-    list_t *tokens = scan("int      int\t int\n\nint\n\tint\n\t\t");
+void test_scan_skips_whitespace() {
+    list_t *tokens = scan("int      int\t int\n\nint\n\t\rint\n\t\t");
     assert_true(NULL != tokens);
     assert_true(5 == list_length(tokens));
     node_t *node = tokens->head;
