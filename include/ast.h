@@ -32,6 +32,7 @@ typedef enum declaration_code_t {
     FUNCTION_DECLARATION,
 } declaration_code_t;
 
+// TODO not sure if need to rename this to top_level_declaration_t--can you declare anything anywhere?
 typedef struct declaration_t {
     declaration_code_t kind;
     void *data;
@@ -72,5 +73,10 @@ typedef struct expr_int_literal_data_t {
 typedef struct return_statement_data_t {
     expr_t *return_value;
 } return_statement_data_t;
+
+/**
+ * @brief Frees all memory associated with the AST.
+ */
+void ast_destroy(ast_t *ast);
 
 #endif  // INCLUDE_AST_H_

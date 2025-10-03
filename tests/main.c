@@ -66,6 +66,7 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_scan_tokenizes_simple_program),
         // test_parser.h
         cmocka_unit_test(test_parse_fails_on_invalid_input),
+        cmocka_unit_test(test_parse_single_function_declaration),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
