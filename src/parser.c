@@ -1,3 +1,4 @@
+#include "include/token.h"
 #include "include/parser.h"
 #include "include/exceptions.h"
 
@@ -18,7 +19,26 @@ static void free_declaration(declaration_t *declaration) {
 static declaration_t *parse_declaration(
     node_t **current_node,
     size_t *num_tokens_remaining) {
-    
+    if (NULL == current_node || NULL == num_tokens_remaining) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    // TODO remove notes
+    // Valid top level declarations:
+    // int foo;
+    // int foo = 10;
+    // int foo();
+    // int foo() {}
+    // int foo(int a, int b);
+    // int foo(int a, int b) {}
+
+    type_t t1 = parse_type(current_node, num_tokens_remaining);
+    char *name1 = parse_string(current_node, num_tokens_remaining);
+    if (*num_tokens_remaining == 0) {
+        // TODO create a print_parse_error function or something to standardize this output
+        token_t *tok = (token_t *)(*current_node)->prev->data;
+        fprintf(stderr, "%s:%d:%d: error: expected ;\n", tok->filename, tok->line, tok->column + strlen(name1));
+        Throw(FAILURE_PARSE_ERROR);
+    }
     // TODO
     return NULL;
 }

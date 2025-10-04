@@ -6,6 +6,7 @@ void free_token(token_t *token) {
     if (NULL == token) {
         return;
     }
+    free(token->filename);
     switch (token->kind) {
         case TOKEN_KEYWORD_INT:
         case TOKEN_LEFT_PAREN:
