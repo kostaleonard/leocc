@@ -16,6 +16,11 @@
  */
 ast_t *parse(list_t *tokens);
 
+// TODO switch to new interface
+typedef struct parser_t {
+    char *filename; // TODO every parser will parse one source file (translation unit), but does it need to know the filename?
+} parser_t;
+
 #endif  // INCLUDE_PARSER_H_
 
 // TODO probably remove

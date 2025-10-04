@@ -17,4 +17,20 @@
  */
 list_t *scan(char *program_text);
 
+// TODO use these interfaces
+// TODO at end of file generate TOKEN_EOF
+typedef struct scanner_t {
+    char *filename; // TODO may be NULL
+    char *text;
+    size_t idx;
+    size_t line;
+    size_t column;
+} scanner_t;
+
+scanner_t *scanner_create_from_file(char *filename);
+
+scanner_t *scanner_create_from_text(char *text);
+
+token_t *scanner_next(scanner_t *scanner);
+
 #endif  // INCLUDE_SCANNER_H_
