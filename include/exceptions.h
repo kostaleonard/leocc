@@ -16,6 +16,7 @@ typedef enum error_code_t {
     FAILURE_INVALID_CHARACTER,
     FAILURE_PARSE_ERROR,
     FAILURE_INVALID_COMMAND_LINE_ARGS,
+    FAILURE_FILE_IO,
 } error_code_t;
 
 #endif  // INCLUDE_EXCEPTIONS_H_

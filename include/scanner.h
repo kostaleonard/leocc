@@ -7,7 +7,9 @@
 
 #include <stddef.h>
 #include "include/list.h"
+#include "include/token.h"
 
+// TODO remove
 /**
  * @brief Returns a list of the tokens that compose the program.
  * 
@@ -27,9 +29,12 @@ typedef struct scanner_t {
     size_t column;
 } scanner_t;
 
+// TODO need tests and docstrings
 scanner_t *scanner_create_from_file(char *filename);
 
 scanner_t *scanner_create_from_text(char *text);
+
+void scanner_destroy(scanner_t *scanner);
 
 token_t *scanner_next(scanner_t *scanner);
 

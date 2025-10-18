@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "include/exceptions.h"
+#include "include/scanner.h"
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
+    /*
     preprocessor_t *pp = preprocessor_create(scanner); // TODO initially preprocessor can just be a pass-through to scanner
     parser_t *parser = parser_create(pp);
     ast_t *ast = parse_translation_unit(parser);
@@ -10,6 +12,7 @@ static void compile_translation_unit(char *filename) {
     ast_print(ast);
     ast_destroy(ast);
     parser_destroy(parser);
+    */
 }
 
 int main(int argc, char **argv) {
