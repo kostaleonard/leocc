@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include "include/exceptions.h"
 #include "include/scanner.h"
+#include "include/preprocessor.h"
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
-    scanner_destroy(scanner); //TODO remove--this is just to get program to compile
+    preprocessor_t *preprocessor = preprocessor_create(scanner);
+    preprocessor_destroy(preprocessor);
     /*
-    preprocessor_t *pp = preprocessor_create(scanner); // TODO initially preprocessor can just be a pass-through to scanner
     parser_t *parser = parser_create(pp);
     ast_t *ast = parse_translation_unit(parser);
     // TODO: codegen(ast);

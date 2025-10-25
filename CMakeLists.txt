@@ -27,7 +27,7 @@ target_link_libraries(preprocessor scanner token cexception)
 add_library(parser src/parser.c)
 target_link_libraries(parser cexception)
 add_executable(leocc src/leocc.c)
-target_link_libraries(leocc scanner)
+target_link_libraries(leocc scanner preprocessor)
 # Tests
 add_executable(tests tests/main.c)
 add_library(test_list tests/src/test_list.c)
