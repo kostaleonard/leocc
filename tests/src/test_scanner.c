@@ -29,11 +29,11 @@ void token_list_print(list_t *list) {
     printf("]\n");
 }
 
-void test_scan_fails_on_invalid_input() {
+void test_scanner_all_fails_on_invalid_input() {
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;
     Try {
-        scan(NULL);
+        scanner_all(NULL);
     } Catch(e) {
         exception_thrown = true;
     }
@@ -41,48 +41,60 @@ void test_scan_fails_on_invalid_input() {
     assert_true(FAILURE_INVALID_INPUT == e);
 }
 
-void test_scan_tokenizes_one_keyword() {
-    list_t *tokens = scan("int");
+void test_scanner_all_tokenizes_one_keyword() {
+    scanner_t *scanner = scanner_create_from_text("int");
+    list_t *tokens = scanner_all(scanner);
     assert_true(NULL != tokens);
-    assert_true(1 == list_length(tokens));
+    assert_true(2 == list_length(tokens));
     token_t *token = (token_t *)tokens->head->data;
     assert_true(TOKEN_KEYWORD_INT == token->kind);
     assert_true(NULL == token->data);
+    token = (token_t *)tokens->head->next->data;
+    assert_true(TOKEN_EOF == token->kind);
+    assert_true(NULL == token->data);
     list_destroy(tokens);
+    scanner_destroy(scanner);
 }
 
-void test_scan_tokenizes_several_keywords() {
-    list_t *tokens = scan("int int int");
+void test_scanner_all_tokenizes_several_keywords() {
+    scanner_t *scanner = scanner_create_from_text("int int int");
+    list_t *tokens = scanner_all(scanner);
     assert_true(NULL != tokens);
-    assert_true(3 == list_length(tokens));
-    node_t *node = tokens->head;
-    do {
+    assert_true(4 == list_length(tokens));
+    size_t idx = 0;
+    for (node_t *node = tokens->head; idx < 3; node = node->next, idx++) {
         token_t *token = (token_t *)node->data;
         assert_true(TOKEN_KEYWORD_INT == token->kind);
         assert_true(NULL == token->data);
         node = node->next;
-    } while (node != tokens->head);
+    }
     list_destroy(tokens);
+    scanner_destroy(scanner);
 }
 
-void test_scan_skips_whitespace() {
-    list_t *tokens = scan("int      int\t int\n\nint\n\t\rint\n\t\t");
+void test_scanner_all_skips_whitespace() {
+    scanner_t *scanner = scanner_create_from_text(
+        "int      int\t int\n\nint\n\t\rint\n\t\t");
+    list_t *tokens = scanner_all(scanner);
     assert_true(NULL != tokens);
-    assert_true(5 == list_length(tokens));
-    node_t *node = tokens->head;
-    do {
+    assert_true(6 == list_length(tokens));
+    size_t idx = 0;
+    for (node_t *node = tokens->head; idx < 5; node = node->next, idx++) {
         token_t *token = (token_t *)node->data;
         assert_true(TOKEN_KEYWORD_INT == token->kind);
         assert_true(NULL == token->data);
         node = node->next;
-    } while (node != tokens->head);
+    }
     list_destroy(tokens);
+    scanner_destroy(scanner);
 }
 
-void test_scan_tokenizes_simple_program() {
-    list_t *tokens = scan("int main() {\n\treturn 2017;\n}\n");
+void test_scanner_all_tokenizes_simple_program() {
+    scanner_t *scanner = scanner_create_from_text(
+        "int main() {\n\treturn 2017;\n}\n");
+    list_t *tokens = scanner_all(scanner);
     assert_true(NULL != tokens);
-    assert_true(9 == list_length(tokens));
+    assert_true(10 == list_length(tokens));
     node_t *node = tokens->head;
     // int
     token_t *token = (token_t *)node->data;
@@ -134,6 +146,12 @@ void test_scan_tokenizes_simple_program() {
     assert_true(TOKEN_RIGHT_BRACE == token->kind);
     assert_true(NULL == token->data);
     node = node->next;
+    // EOF
+    token = (token_t *)node->data;
+    assert_true(TOKEN_EOF == token->kind);
+    assert_true(NULL == token->data);
+    node = node->next;
     assert_true(node == tokens->head);
     list_destroy(tokens);
+    scanner_destroy(scanner);
 }

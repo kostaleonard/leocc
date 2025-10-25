@@ -30,7 +30,7 @@ static declaration_t *parse_declaration(
     // int foo() {}
     // int foo(int a, int b);
     // int foo(int a, int b) {}
-
+    /*
     type_t t1 = parse_type(current_node, num_tokens_remaining);
     char *name1 = parse_string(current_node, num_tokens_remaining);
     if (*num_tokens_remaining == 0) {
@@ -39,6 +39,7 @@ static declaration_t *parse_declaration(
         fprintf(stderr, "%s:%d:%d: error: expected ;\n", tok->filename, tok->line, tok->column + strlen(name1));
         Throw(FAILURE_PARSE_ERROR);
     }
+    */
     // TODO
     return NULL;
 }

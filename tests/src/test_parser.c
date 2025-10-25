@@ -26,6 +26,7 @@ void test_parse_fails_on_invalid_input() {
 }
 
 void test_parse_single_function_declaration() {
+    /*
     list_t *tokens = scan("int main() {\n\treturn 2017;\n}\n");
     ast_t *ast = parse(tokens);
     assert_true(NULL != ast);
@@ -47,4 +48,7 @@ void test_parse_single_function_declaration() {
     assert_true(2017 == eild->value);
     list_destroy(tokens);
     ast_destroy(ast);
+    */
+   // TODO
+   assert_true(false);
 }

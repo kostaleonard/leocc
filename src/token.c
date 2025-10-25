@@ -6,7 +6,9 @@ void free_token(token_t *token) {
     if (NULL == token) {
         return;
     }
-    free(token->filename);
+    if (NULL != token->filename) {
+        free(token->filename);
+    }
     switch (token->kind) {
         case TOKEN_KEYWORD_INT:
         case TOKEN_LEFT_PAREN:
@@ -15,6 +17,7 @@ void free_token(token_t *token) {
         case TOKEN_KEYWORD_RETURN:
         case TOKEN_SEMICOLON:
         case TOKEN_RIGHT_BRACE:
+        case TOKEN_EOF:
             free(token);
         break;
         case TOKEN_LITERAL_INT:
@@ -28,6 +31,8 @@ void free_token(token_t *token) {
             free(token);
         break;
         default:
+            fprintf(
+                stderr, "Undefined free behavior for token %d\n", token->kind);
             Throw(FAILURE_INVALID_INPUT);
     }
 }

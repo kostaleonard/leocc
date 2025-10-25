@@ -16,7 +16,6 @@ include_directories(
 # CException
 add_library(cexception submodules/CException/CException/lib/CException.c)
 # leocc
-add_executable(leocc src/leocc.c)
 add_library(list src/list.c)
 target_link_libraries(list cexception)
 add_library(token src/token.c)
@@ -25,6 +24,8 @@ add_library(scanner src/scanner.c)
 target_link_libraries(scanner list token cexception)
 add_library(parser src/parser.c)
 target_link_libraries(parser cexception)
+add_executable(leocc src/leocc.c)
+target_link_libraries(leocc scanner)
 # Tests
 add_executable(tests tests/main.c)
 add_library(test_list tests/src/test_list.c)

@@ -59,11 +59,11 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_free_token_frees_literal_int_token),
         cmocka_unit_test(test_free_token_frees_identifier_token),
         // test_scanner.h
-        cmocka_unit_test(test_scan_fails_on_invalid_input),
-        cmocka_unit_test(test_scan_tokenizes_one_keyword),
-        cmocka_unit_test(test_scan_tokenizes_several_keywords),
-        cmocka_unit_test(test_scan_skips_whitespace),
-        cmocka_unit_test(test_scan_tokenizes_simple_program),
+        cmocka_unit_test(test_scanner_all_fails_on_invalid_input),
+        cmocka_unit_test(test_scanner_all_tokenizes_one_keyword),
+        cmocka_unit_test(test_scanner_all_tokenizes_several_keywords),
+        cmocka_unit_test(test_scanner_all_skips_whitespace),
+        cmocka_unit_test(test_scanner_all_tokenizes_simple_program),
         // test_parser.h
         cmocka_unit_test(test_parse_fails_on_invalid_input),
         cmocka_unit_test(test_parse_single_function_declaration),

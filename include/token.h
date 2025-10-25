@@ -4,6 +4,7 @@
 
 #ifndef INCLUDE_TOKEN_H_
 #define INCLUDE_TOKEN_H_
+#include <stddef.h>
 
 typedef enum token_code_t {
     TOKEN_KEYWORD_INT,
@@ -15,6 +16,7 @@ typedef enum token_code_t {
     TOKEN_LITERAL_INT,
     TOKEN_SEMICOLON,
     TOKEN_RIGHT_BRACE,
+    TOKEN_EOF,
 } token_code_t;
 
 /**

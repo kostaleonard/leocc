@@ -4,6 +4,7 @@
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
+    scanner_destroy(scanner); //TODO remove--this is just to get program to compile
     /*
     preprocessor_t *pp = preprocessor_create(scanner); // TODO initially preprocessor can just be a pass-through to scanner
     parser_t *parser = parser_create(pp);

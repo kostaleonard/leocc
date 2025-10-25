@@ -9,16 +9,6 @@
 #include "include/list.h"
 #include "include/token.h"
 
-// TODO remove
-/**
- * @brief Returns a list of the tokens that compose the program.
- * 
- * @param program_text The preprocessed program text.
- * @return list_t* A list of the tokens that compose the program. Each node_t's
- * void *data points to a token_t. Callers must free.
- */
-list_t *scan(char *program_text);
-
 // TODO use these interfaces
 // TODO at end of file generate TOKEN_EOF
 typedef struct scanner_t {
@@ -37,5 +27,19 @@ scanner_t *scanner_create_from_text(char *text);
 void scanner_destroy(scanner_t *scanner);
 
 token_t *scanner_next(scanner_t *scanner);
+
+// TODO this function is sort of tech debt because I've got code and tests for scan, which I want to keep for testing while I reimplement scanning
+list_t *scanner_all(scanner_t *scanner);
+
+// TODO note this is only really for testing, and change program_text arg to scanner_t *
+// TODO maybe change name to like scanner_all or something
+/**
+ * @brief Returns a list of the tokens that compose the program.
+ * 
+ * @param program_text The preprocessed program text.
+ * @return list_t* A list of the tokens that compose the program. Each node_t's
+ * void *data points to a token_t. Callers must free.
+ */
+//list_t *scan(char *program_text);
 
 #endif  // INCLUDE_SCANNER_H_
