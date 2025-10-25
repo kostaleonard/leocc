@@ -1,5 +1,5 @@
 /**
- * @brief The scanner takes a program text as input and outputs the tokens.
+ * @brief The scanner takes one file's text as input and outputs the tokens.
  */
 
 #ifndef INCLUDE_SCANNER_H_
