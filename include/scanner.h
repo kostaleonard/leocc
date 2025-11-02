@@ -9,8 +9,8 @@
 #include "include/list.h"
 #include "include/token.h"
 
-// TODO use these interfaces
-// TODO at end of file generate TOKEN_EOF
+// TODO docstring
+// TODO use source_loc_t for standardization in scanner, preprocessor, and parser
 typedef struct scanner_t {
     char *filename; // TODO may be NULL
     char *text;

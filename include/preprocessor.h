@@ -16,8 +16,8 @@ typedef struct preprocessor_t {
 
 preprocessor_t *preprocessor_create(scanner_t *scanner);
 
-void preprocessor_destroy(preprocessor_t *preprocessor);
+void preprocessor_destroy(preprocessor_t *pp);
 
-token_t *preprocessor_next(preprocessor_t *preprocessor);
+token_t *preprocessor_next(preprocessor_t *pp);
 
 #endif  // INCLUDE_PREPROCESSOR_H_

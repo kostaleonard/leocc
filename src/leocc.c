@@ -2,14 +2,14 @@
 #include "include/exceptions.h"
 #include "include/scanner.h"
 #include "include/preprocessor.h"
+#include "include/parser.h"
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
-    preprocessor_t *preprocessor = preprocessor_create(scanner);
-    preprocessor_destroy(preprocessor);
-    /*
+    preprocessor_t *pp = preprocessor_create(scanner);
     parser_t *parser = parser_create(pp);
-    ast_t *ast = parse_translation_unit(parser);
+    ast_node_t *ast = parse_translation_unit(parser);
+    /*
     // TODO: codegen(ast);
     ast_print(ast);
     ast_destroy(ast);

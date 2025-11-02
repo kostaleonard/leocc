@@ -1,25 +1,45 @@
 /**
- * @brief The parser takes the tokens and produces an abstract syntax tree.
+ * @brief The parser takes tokens and produces an abstract syntax tree.
  */
 
 #ifndef INCLUDE_PARSER_H_
 #define INCLUDE_PARSER_H_
 
 #include "include/list.h"
+#include "include/preprocessor.h"
 #include "include/ast.h"
 
-/**
- * @brief Returns the abstract syntax tree from the list of tokens.
- * 
- * @param tokens The scanned tokens.
- * @return ast_t* The abstract syntax tree. Callers must free.
- */
-ast_t *parse(list_t *tokens);
-
-// TODO switch to new interface
+// TODO docstrings
 typedef struct parser_t {
-    char *filename; // TODO every parser will parse one source file (translation unit), but does it need to know the filename?
+    preprocessor_t *pp;
+    char *filename;
+    token_t *current;
+    token_t *lookahead;
 } parser_t;
+
+// TODO look into these enums and structs
+typedef enum {
+    STORAGE_NONE, STORAGE_EXTERN, STORAGE_STATIC, STORAGE_TYPEDEF
+} storage_class_t;
+
+typedef enum {
+    TYPE_NONE, TYPE_VOID, TYPE_INT, TYPE_CHAR, TYPE_STRUCT, TYPE_ENUM
+} type_spec_t;
+
+typedef struct decl_spec_t {
+    storage_class_t storage_class;
+    type_spec_t type_spec;
+    unsigned qualifiers;
+} decl_spec_t;
+
+parser_t *parser_create(preprocessor_t *pp);
+
+void parser_destroy(parser_t *parser);
+
+// TODO consume the current token and pull the next one from the preprocessor.
+void parser_advance(parser_t *parser);
+
+ast_node_t *parse_translation_unit(parser_t *parser);
 
 #endif  // INCLUDE_PARSER_H_
 

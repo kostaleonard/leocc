@@ -7,16 +7,16 @@
 #include <stddef.h>
 
 typedef enum token_code_t {
-    TOKEN_KEYWORD_INT,
-    TOKEN_IDENTIFIER,
-    TOKEN_LEFT_PAREN,
-    TOKEN_RIGHT_PAREN,
-    TOKEN_LEFT_BRACE,
-    TOKEN_KEYWORD_RETURN,
-    TOKEN_LITERAL_INT,
-    TOKEN_SEMICOLON,
-    TOKEN_RIGHT_BRACE,
-    TOKEN_EOF,
+    TOK_INT,
+    TOK_IDENTIFIER,
+    TOK_LPAREN,
+    TOK_RPAREN,
+    TOK_LBRACE,
+    TOK_RETURN,
+    TOK_LITERAL_INT,
+    TOK_SEMICOLON,
+    TOK_RBRACE,
+    TOK_EOF,
 } token_code_t;
 
 /**
@@ -37,7 +37,7 @@ typedef struct token_t {
     char *filename;
     size_t line;
     size_t column;
-    void *data;
+    void *data; // TODO make this into a union
 } token_t;
 
 typedef struct identifier_data_t {

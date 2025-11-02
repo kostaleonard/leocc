@@ -100,7 +100,7 @@ static void scanner_skip_whitespace(scanner_t *scanner) {
 static void scan_num(scanner_t *scanner, token_t *token) {
     char *endptr;
     int num = strtol(scanner->text + scanner->idx, &endptr, 10);
-    token->kind = TOKEN_LITERAL_INT;
+    token->kind = TOK_LITERAL_INT;
     token->data = calloc(1, sizeof(literal_int_data_t));
     if (NULL == token->data) {
         Throw(FAILURE_COULD_NOT_MALLOC);
@@ -121,7 +121,7 @@ static void scan_identifier(scanner_t *scanner, token_t *token) {
     while (isalnum(scanner->text[end])) {
         end++;
     }
-    token->kind = TOKEN_IDENTIFIER;
+    token->kind = TOK_IDENTIFIER;
     token->data = calloc(1, sizeof(identifier_data_t));
     if (NULL == token->data) {
         Throw(FAILURE_COULD_NOT_MALLOC);
@@ -156,35 +156,35 @@ token_t *scanner_next(scanner_t *scanner) {
     token->column = scanner->column;
     char c = scanner->text[scanner->idx];
     if (c == '\0') {
-        token->kind = TOKEN_EOF;
+        token->kind = TOK_EOF;
     } else if (c == '(') {
-        token->kind = TOKEN_LEFT_PAREN;
+        token->kind = TOK_LPAREN;
         scanner->column++;
         scanner->idx++;
     } else if (c == ')') {
-        token->kind = TOKEN_RIGHT_PAREN;
+        token->kind = TOK_RPAREN;
         scanner->column++;
         scanner->idx++;
     } else if (c == '{') {
-        token->kind = TOKEN_LEFT_BRACE;
+        token->kind = TOK_LBRACE;
         scanner->column++;
         scanner->idx++;
     } else if (c == '}') {
-        token->kind = TOKEN_RIGHT_BRACE;
+        token->kind = TOK_RBRACE;
         scanner->column++;
         scanner->idx++;
     } else if (c == ';') {
-        token->kind = TOKEN_SEMICOLON;
+        token->kind = TOK_SEMICOLON;
         scanner->column++;
         scanner->idx++;
     } else if (0 == strncmp(
             scanner->text + scanner->idx, "int", strlen("int"))) {
-        token->kind = TOKEN_KEYWORD_INT;
+        token->kind = TOK_INT;
         scanner->column += strlen("int");
         scanner->idx += strlen("int");
     } else if (0 == strncmp(
             scanner->text + scanner->idx, "return", strlen("return"))) {
-        token->kind = TOKEN_KEYWORD_RETURN;
+        token->kind = TOK_RETURN;
         scanner->column += strlen("return");
         scanner->idx += strlen("return");
     } else if (isdigit(c)) {
@@ -206,6 +206,6 @@ list_t *scanner_all(scanner_t *scanner) {
     do {
         token = scanner_next(scanner);
         list_append(tokens, token);
-    } while (token->kind != TOKEN_EOF);
+    } while (token->kind != TOK_EOF);
     return tokens;
 }

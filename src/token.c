@@ -10,21 +10,21 @@ void free_token(token_t *token) {
         free(token->filename);
     }
     switch (token->kind) {
-        case TOKEN_KEYWORD_INT:
-        case TOKEN_LEFT_PAREN:
-        case TOKEN_RIGHT_PAREN:
-        case TOKEN_LEFT_BRACE:
-        case TOKEN_KEYWORD_RETURN:
-        case TOKEN_SEMICOLON:
-        case TOKEN_RIGHT_BRACE:
-        case TOKEN_EOF:
+        case TOK_INT:
+        case TOK_LPAREN:
+        case TOK_RPAREN:
+        case TOK_LBRACE:
+        case TOK_RETURN:
+        case TOK_SEMICOLON:
+        case TOK_RBRACE:
+        case TOK_EOF:
             free(token);
         break;
-        case TOKEN_LITERAL_INT:
+        case TOK_LITERAL_INT:
             free(token->data);
             free(token);
         break;
-        case TOKEN_IDENTIFIER:
+        case TOK_IDENTIFIER:
             identifier_data_t *id_data = (identifier_data_t *)token->data;
             free(id_data->name);
             free(token->data);

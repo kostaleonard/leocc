@@ -5,9 +5,7 @@
 #ifndef INCLUDE_AST_H_
 #define INCLUDE_AST_H_
 
-#include "include/list.h"
-
-// TODO remove
+// TODO remove brainstorming
 /*
 AST:
 TranslationUnit
@@ -20,63 +18,48 @@ TranslationUnit
             └── IntegerLiteral: 2017
 */
 
-typedef struct translation_unit_t {
-    list_t* declarations;
-} translation_unit_t;
+// TODO docstrings
+// TODO cull unused ones until needed so we don't have them hanging around
+typedef enum {
+    AST_TRANSLATION_UNIT,
+    AST_FUNCTION_DEF,
+    AST_DECLARATION,
+    AST_PARAM,
+    AST_COMPOUND_STMT,
+    AST_RETURN_STMT,
+    AST_IF_STMT,
+    AST_BINARY_EXPR,
+    AST_UNARY_EXPR,
+    AST_CALL_EXPR,
+    AST_IDENTIFIER,
+    AST_INT_LITERAL,
+    AST_STRING_LITERAL,
+} ast_kind_t;
 
-typedef struct ast_t {
-    translation_unit_t *root;
-} ast_t;
+// TODO replace filename/line/col with source_loc_t 
+typedef struct ast_node_t {
+    ast_kind_t kind;
+    char *filename;
+    size_t line;
+    size_t column;
+    struct ast_node_t **children;
+    size_t child_count;
+    // TODO not sure how each of these will all fit into the scheme.
+    union {
+        char *ident;              // for identifiers
+        long int_value;           // for integer literals
+        char *string_value;       // for string literals
+        char *operator;           // for operators like "+"
+    } data;
+} ast_node_t;
 
-typedef enum declaration_code_t {
-    FUNCTION_DECLARATION,
-} declaration_code_t;
-
-// TODO not sure if need to rename this to top_level_declaration_t--can you declare anything anywhere?
-typedef struct declaration_t {
-    declaration_code_t kind;
-    void *data;
-} declaration_t;
-
-typedef enum type_t {
-    TYPE_INT,
-} type_t;
-
-typedef struct function_declaration_data_t {
-    char *name;
-    type_t return_type;
-    list_t *body;
-} function_declaration_data_t;
-
-typedef enum statement_code_t {
-    STATEMENT_RETURN,
-} statement_code_t;
-
-typedef struct statement_t {
-    statement_code_t kind;
-    void *data;
-} statement_t;
-
-typedef enum expr_code_t {
-    EXPR_INT_LITERAL,
-} expr_code_t;
-
-typedef struct expr_t {
-    expr_code_t kind;
-    void *data;
-} expr_t;
-
-typedef struct expr_int_literal_data_t {
-    int value;
-} expr_int_literal_data_t;
-
-typedef struct return_statement_data_t {
-    expr_t *return_value;
-} return_statement_data_t;
+ast_node_t *ast_node_create(ast_kind_t kind);
 
 /**
  * @brief Frees all memory associated with the AST.
  */
-void ast_destroy(ast_t *ast);
+void ast_node_destroy(ast_node_t *node);
+
+void ast_add_child(ast_node_t *parent, ast_node_t *child);
 
 #endif  // INCLUDE_AST_H_
