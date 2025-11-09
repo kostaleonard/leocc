@@ -18,25 +18,20 @@ void test_free_token_does_nothing_on_null_input() {
 void test_free_token_frees_keyword_token() {
     token_t *token = calloc(1, sizeof(token_t));
     token->kind = TOK_INT;
-    token->data = NULL;
     free_token(token);
 }
 
 void test_free_token_frees_literal_int_token() {
     token_t *token = calloc(1, sizeof(token_t));
     token->kind = TOK_INT_LITERAL;
-    token->data = malloc(sizeof(literal_int_data_t));
-    literal_int_data_t *int_data = (literal_int_data_t *)token->data;
-    int_data->val = 2017;
+    token->data.int_value = 2017;
     free_token(token);
 }
 
 void test_free_token_frees_identifier_token() {
     token_t *token = calloc(1, sizeof(token_t));
     token->kind = TOK_IDENTIFIER;
-    token->data = malloc(sizeof(identifier_data_t));
-    identifier_data_t *id_data = (identifier_data_t *)token->data;
-    id_data->name = malloc(256);
-    strncpy(id_data->name, "my_identifier", 256);
+    token->data.ident = malloc(256);
+    strncpy(token->data.ident, "my_identifier", 256);
     free_token(token);
 }

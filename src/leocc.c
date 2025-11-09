@@ -3,18 +3,17 @@
 #include "include/scanner.h"
 #include "include/preprocessor.h"
 #include "include/parser.h"
+#include "include/ast.h"
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
     preprocessor_t *pp = preprocessor_create(scanner);
     parser_t *parser = parser_create(pp);
     ast_node_t *ast = parse_translation_unit(parser);
-    /*
     // TODO: codegen(ast);
-    ast_print(ast);
-    ast_destroy(ast);
+    ast_node_print(ast);
+    ast_node_destroy(ast);
     parser_destroy(parser);
-    */
 }
 
 int main(int argc, char **argv) {

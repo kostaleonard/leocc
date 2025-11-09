@@ -27,3 +27,10 @@ void ast_add_child(ast_node_t *parent, ast_node_t *child) {
     parent->children[parent->child_count] = child;
     parent->child_count++;
 }
+
+void ast_node_print(ast_node_t *node) {
+    if (NULL == node) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    printf("TODO print ast\n");
+}

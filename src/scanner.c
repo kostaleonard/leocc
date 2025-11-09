@@ -101,12 +101,7 @@ static void scan_num(scanner_t *scanner, token_t *token) {
     char *endptr;
     int num = strtol(scanner->text + scanner->idx, &endptr, 10);
     token->kind = TOK_INT_LITERAL;
-    token->data = calloc(1, sizeof(literal_int_data_t));
-    if (NULL == token->data) {
-        Throw(FAILURE_COULD_NOT_MALLOC);
-    }
-    literal_int_data_t *int_data = (literal_int_data_t *)token->data;
-    int_data->val = num;
+    token->data.int_value = num;
     size_t idx_diff = endptr - (scanner->text + scanner->idx);
     scanner->idx += idx_diff;
     scanner->column += idx_diff;
@@ -122,16 +117,11 @@ static void scan_identifier(scanner_t *scanner, token_t *token) {
         end++;
     }
     token->kind = TOK_IDENTIFIER;
-    token->data = calloc(1, sizeof(identifier_data_t));
-    if (NULL == token->data) {
+    token->data.ident = calloc(end - start + 1, sizeof(char));
+    if (NULL == token->data.ident) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
-    identifier_data_t *id_data = (identifier_data_t *)token->data;
-    id_data->name = calloc(end - start + 1, sizeof(char));
-    if (NULL == id_data->name) {
-        Throw(FAILURE_COULD_NOT_MALLOC);
-    }
-    strncpy(id_data->name, scanner->text + start, end - start);
+    strncpy(token->data.ident, scanner->text + start, end - start);
     size_t idx_diff = end - start;
     scanner->idx += idx_diff;
     scanner->column += idx_diff;

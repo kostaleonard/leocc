@@ -68,4 +68,6 @@ void ast_node_destroy(ast_node_t *node);
 
 void ast_add_child(ast_node_t *parent, ast_node_t *child);
 
+void ast_node_print(ast_node_t *node);
+
 #endif  // INCLUDE_AST_H_
