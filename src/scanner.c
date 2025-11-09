@@ -100,7 +100,7 @@ static void scanner_skip_whitespace(scanner_t *scanner) {
 static void scan_num(scanner_t *scanner, token_t *token) {
     char *endptr;
     int num = strtol(scanner->text + scanner->idx, &endptr, 10);
-    token->kind = TOK_LITERAL_INT;
+    token->kind = TOK_INT_LITERAL;
     token->data = calloc(1, sizeof(literal_int_data_t));
     if (NULL == token->data) {
         Throw(FAILURE_COULD_NOT_MALLOC);

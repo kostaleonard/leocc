@@ -6,18 +6,18 @@
 #define INCLUDE_TOKEN_H_
 #include <stddef.h>
 
-typedef enum token_code_t {
+typedef enum token_kind_t {
     TOK_INT,
     TOK_IDENTIFIER,
     TOK_LPAREN,
     TOK_RPAREN,
     TOK_LBRACE,
     TOK_RETURN,
-    TOK_LITERAL_INT,
+    TOK_INT_LITERAL,
     TOK_SEMICOLON,
     TOK_RBRACE,
     TOK_EOF,
-} token_code_t;
+} token_kind_t;
 
 /**
  * @brief Represents a token in the C language.
@@ -33,7 +33,7 @@ typedef enum token_code_t {
  * containing this value (and potentially other relevant information).
  */
 typedef struct token_t {
-    token_code_t kind;
+    token_kind_t kind;
     char *filename;
     size_t line;
     size_t column;
@@ -54,5 +54,6 @@ typedef struct literal_int_data_t {
  * If token is NULL, the function does nothing.
  */
 void free_token(token_t *token);
+// TODO rename to token_destroy for consistency
 
 #endif  // INCLUDE_TOKEN_H_

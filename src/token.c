@@ -20,7 +20,7 @@ void free_token(token_t *token) {
         case TOK_EOF:
             free(token);
         break;
-        case TOK_LITERAL_INT:
+        case TOK_INT_LITERAL:
             free(token->data);
             free(token);
         break;

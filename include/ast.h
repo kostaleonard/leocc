@@ -34,6 +34,10 @@ typedef enum {
     AST_IDENTIFIER,
     AST_INT_LITERAL,
     AST_STRING_LITERAL,
+    AST_DECL_SPECIFIERS,
+    AST_STORAGE_CLASS,
+    AST_TYPE_SPECIFIER,
+    AST_DECLARATOR,
 } ast_kind_t;
 
 // TODO replace filename/line/col with source_loc_t 
@@ -50,6 +54,7 @@ typedef struct ast_node_t {
         long int_value;           // for integer literals
         char *string_value;       // for string literals
         char *operator;           // for operators like "+"
+        type_spec_t type_spec;
     } data;
 } ast_node_t;
 

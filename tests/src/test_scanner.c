@@ -131,7 +131,7 @@ void test_scanner_all_tokenizes_simple_program() {
     node = node->next;
     // 2017
     token = (token_t *)node->data;
-    assert_true(TOK_LITERAL_INT == token->kind);
+    assert_true(TOK_INT_LITERAL == token->kind);
     assert_true(NULL != token->data);
     literal_int_data_t *int_data = (literal_int_data_t *)token->data;
     assert_true(2017 == int_data->val);

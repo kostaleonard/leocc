@@ -24,7 +24,7 @@ void test_free_token_frees_keyword_token() {
 
 void test_free_token_frees_literal_int_token() {
     token_t *token = calloc(1, sizeof(token_t));
-    token->kind = TOK_LITERAL_INT;
+    token->kind = TOK_INT_LITERAL;
     token->data = malloc(sizeof(literal_int_data_t));
     literal_int_data_t *int_data = (literal_int_data_t *)token->data;
     int_data->val = 2017;
