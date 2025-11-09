@@ -10,9 +10,10 @@ parser_t *parser_create(preprocessor_t *pp) {
     if (NULL == parser) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
+    parser->pp = pp;
     parser->filename = strdup(pp->scanner->filename);
-    parser->current = preprocessor_next(pp);
-    parser->lookahead = preprocessor_next(pp);
+    parser->current = preprocessor_next(parser->pp);
+    parser->lookahead = preprocessor_next(parser->pp);
     return parser;
 }
 
@@ -222,31 +223,6 @@ ast_node_t *parse_statement(parser_t *parser) {
    return parse_return_statement(parser);
 }
 
-bool is_decl_specifier(token_kind_t kind) {
-    switch (kind) {
-        case TOK_INT:
-        /*
-        case TOK_CHAR:
-        case TOK_FLOAT:
-        case TOK_DOUBLE:
-        case TOK_VOID:
-        case TOK_STRUCT:
-        case TOK_UNION:
-        case TOK_ENUM:
-        case TOK_TYPEDEF:
-        case TOK_STATIC:
-        case TOK_EXTERN:
-        case TOK_CONST:
-        case TOK_VOLATILE:
-        case TOK_RESTRICT:
-        case TOK_ATOMIC:
-        */
-            return true;
-        default:
-            return false;
-    }
-}
-
 ast_node_t *parse_compound_statement(parser_t *parser) {
     // Create node
     ast_node_t *block = ast_node_create(AST_COMPOUND_STMT);
@@ -322,6 +298,31 @@ ast_node_t *parse_function_definition(parser_t *parser, decl_spec_t *spec) {
     ast_add_child(fn, body);
 
     return fn;
+}
+
+bool is_decl_specifier(token_kind_t kind) {
+    switch (kind) {
+        case TOK_INT:
+        /*
+        case TOK_CHAR:
+        case TOK_FLOAT:
+        case TOK_DOUBLE:
+        case TOK_VOID:
+        case TOK_STRUCT:
+        case TOK_UNION:
+        case TOK_ENUM:
+        case TOK_TYPEDEF:
+        case TOK_STATIC:
+        case TOK_EXTERN:
+        case TOK_CONST:
+        case TOK_VOLATILE:
+        case TOK_RESTRICT:
+        case TOK_ATOMIC:
+        */
+            return true;
+        default:
+            return false;
+    }
 }
 
 decl_spec_t parse_decl_specifiers(parser_t *parser) {
