@@ -365,6 +365,9 @@ ast_node_t *parse_external_declaration(parser_t *parser) {
 }
 
 ast_node_t *parse_translation_unit(parser_t *parser) {
+    if (NULL == parser) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
     ast_node_t *root = ast_node_create(AST_TRANSLATION_UNIT);
     while (parser->current->kind != TOK_EOF) {
         ast_node_t *decl = parse_external_declaration(parser);
