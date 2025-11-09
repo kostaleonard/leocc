@@ -7,6 +7,7 @@
 
 #include "include/list.h"
 #include "include/preprocessor.h"
+#include "include/types.h"
 #include "include/ast.h"
 
 // TODO docstrings
@@ -26,49 +27,6 @@ typedef enum {
     STORAGE_AUTO,
     STORAGE_REGISTER
 } storage_class_t;
-
-// TODO clean this up
-typedef enum {
-    TYPE_NONE = 0,
-
-    // Standard integer types
-    TYPE_VOID,
-    TYPE_BOOL,
-    TYPE_CHAR,
-    TYPE_SIGNED_CHAR,
-    TYPE_UNSIGNED_CHAR,
-    TYPE_SHORT,
-    TYPE_UNSIGNED_SHORT,
-    TYPE_INT,
-    TYPE_UNSIGNED_INT,
-    TYPE_LONG,
-    TYPE_UNSIGNED_LONG,
-    TYPE_LONG_LONG,
-    TYPE_UNSIGNED_LONG_LONG,
-
-    // Floating-point types
-    TYPE_FLOAT,
-    TYPE_DOUBLE,
-    TYPE_LONG_DOUBLE,
-
-    // Other types
-    TYPE_ENUM,
-    TYPE_STRUCT,
-    TYPE_UNION,
-    TYPE_TYPEDEF_NAME,  // user-defined typedef name
-
-    // Extensions (optional)
-    TYPE_COMPLEX,
-    TYPE_IMAGINARY
-} type_spec_t;
-
-typedef enum {
-    QUAL_NONE = 0,
-    QUAL_CONST = 1 << 0,
-    QUAL_VOLATILE = 1 << 1,
-    QUAL_RESTRICT = 1 << 2,
-    QUAL_ATOMIC = 1 << 3,
-} type_qual_t;
 
 typedef struct decl_spec_t {
     storage_class_t storage_class;

@@ -44,7 +44,7 @@ void parser_expect(parser_t *parser, token_kind_t expected) {
 
 ast_node_t *parse_declarator(parser_t *parser) {
     // Create the declarator node
-    ast_node_t *decl = ast_create(AST_DECLARATOR);
+    ast_node_t *decl = ast_node_create(AST_DECLARATOR);
     //decl->loc = parser->current->loc;
 
     
@@ -139,17 +139,17 @@ static ast_node_t *parse_primary_expression(parser_t *parser) {
             node = parse_expression(parser);
             parser_expect(parser, TOK_RPAREN);
             break;
-
-        default:
-            parser_error(parser, "expected primary expression");
-            // skip token to recover
-            parser_advance(parser);
-            node = ast_create(parser->arena, AST_ERROR_EXPR);
-            break;
         */
+        default:
+            Throw(FAILURE_PARSE_ERROR);
+            break;
     }
 
     return node;
+}
+
+ast_node_t *parse_expression(parser_t *parser) {
+    return parse_primary_expression(parser);
 }
 
 ast_node_t *parse_return_statement(parser_t *parser) {
@@ -342,6 +342,9 @@ decl_spec_t parse_decl_specifiers(parser_t *parser) {
                 break;
             */
             // ...
+            default:
+                Throw(FAILURE_PARSE_ERROR);
+                break;
         }
         parser_advance(parser);
     }

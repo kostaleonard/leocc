@@ -1,0 +1,36 @@
+#ifndef INCLUDE_TYPES_H_
+#define INCLUDE_TYPES_H_
+
+typedef enum {
+    TYPE_NONE,
+    TYPE_VOID,
+    TYPE_BOOL,
+    TYPE_CHAR,
+    TYPE_SIGNED_CHAR,
+    TYPE_UNSIGNED_CHAR,
+    TYPE_SHORT,
+    TYPE_UNSIGNED_SHORT,
+    TYPE_INT,
+    TYPE_UNSIGNED_INT,
+    TYPE_LONG,
+    TYPE_UNSIGNED_LONG,
+    TYPE_LONG_LONG,
+    TYPE_UNSIGNED_LONG_LONG,
+    TYPE_FLOAT,
+    TYPE_DOUBLE,
+    TYPE_LONG_DOUBLE,
+    TYPE_STRUCT,
+    TYPE_UNION,
+    TYPE_ENUM,
+    TYPE_TYPEDEF_NAME
+} type_spec_t;
+
+typedef enum {
+    QUAL_NONE = 0,
+    QUAL_CONST = 1 << 0,
+    QUAL_VOLATILE = 1 << 1,
+    QUAL_RESTRICT = 1 << 2,
+    QUAL_ATOMIC = 1 << 3
+} type_qual_t;
+
+#endif  // INCLUDE_TYPES_H_

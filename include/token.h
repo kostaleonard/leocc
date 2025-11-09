@@ -37,16 +37,13 @@ typedef struct token_t {
     char *filename;
     size_t line;
     size_t column;
-    void *data; // TODO make this into a union
+    union {
+        long int_value;       // for integer constants
+        double float_value;   // for floating-point constants
+        char *string_value;   // for string or char literals (malloc’d)
+        char *ident;          // for identifiers
+    } data;
 } token_t;
-
-typedef struct identifier_data_t {
-    char *name;
-} identifier_data_t;
-
-typedef struct literal_int_data_t {
-    int val;
-} literal_int_data_t;
 
 /**
  * @brief Frees token and all memory associated with it.

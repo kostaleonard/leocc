@@ -18,16 +18,11 @@ void free_token(token_t *token) {
         case TOK_SEMICOLON:
         case TOK_RBRACE:
         case TOK_EOF:
-            free(token);
-        break;
         case TOK_INT_LITERAL:
-            free(token->data);
             free(token);
         break;
         case TOK_IDENTIFIER:
-            identifier_data_t *id_data = (identifier_data_t *)token->data;
-            free(id_data->name);
-            free(token->data);
+            free(token->data.ident);
             free(token);
         break;
         default:

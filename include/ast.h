@@ -4,6 +4,7 @@
 
 #ifndef INCLUDE_AST_H_
 #define INCLUDE_AST_H_
+#include "include/types.h"
 
 // TODO remove brainstorming
 /*
