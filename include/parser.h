@@ -38,55 +38,6 @@ parser_t *parser_create(preprocessor_t *pp);
 
 void parser_destroy(parser_t *parser);
 
-// TODO consume the current token and pull the next one from the preprocessor.
-void parser_advance(parser_t *parser);
-
 ast_node_t *parse_translation_unit(parser_t *parser);
 
 #endif  // INCLUDE_PARSER_H_
-
-// TODO probably remove
-/*
-
-[ Source code ]
-    ↓
-[ AST / IR ]
-    ↓
-[ Assembly (.s) ]
-    ↓
-[ Assembler → Object file (.o) ]
-    ↓
-[ Linker → Executable (.exe or .out) ]
-
-
-
-global main
-section .text
-
-main:
-    mov eax, 2017
-    ret
-
-
-
-void generate_translation_unit(ASTNode* tu) {
-    for each declaration in tu:
-        if (declaration is function) {
-            emit_label(declaration->name);
-            generate_statement(declaration->body);
-        }
-}
-
-void generate_statement(Statement* stmt) {
-    if (stmt is ReturnStatement) {
-        generate_expression(stmt->return_expr);
-        emit("ret");
-    }
-}
-
-void generate_expression(Expression* expr) {
-    if (expr is IntegerLiteral) {
-        emit("mov eax, %d", expr->int_value);
-    }
-}
-*/
