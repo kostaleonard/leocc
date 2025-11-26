@@ -12,6 +12,12 @@ ast_node_t *ast_node_create(ast_kind_t kind) {
 }
 
 void ast_node_destroy(ast_node_t *node) {
+    if (NULL == node) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    switch (node->kind) {
+        
+    }
     // TODO
     free(node);
 }

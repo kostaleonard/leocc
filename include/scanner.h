@@ -12,7 +12,7 @@
 // TODO docstring
 // TODO use source_loc_t for standardization in scanner, preprocessor, and parser
 typedef struct scanner_t {
-    char *filename; // TODO may be NULL
+    char *filename; // TODO may be NULL.
     char *text;
     size_t idx;
     size_t line;

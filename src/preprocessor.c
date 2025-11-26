@@ -24,6 +24,5 @@ token_t *preprocessor_next(preprocessor_t *pp) {
     if (NULL == pp) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    // TODO right now we are not handling preprocessor directives, so this is just a pass-through to the scanner
     return scanner_next(pp->scanner);
 }

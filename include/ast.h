@@ -6,19 +6,6 @@
 #define INCLUDE_AST_H_
 #include "include/types.h"
 
-// TODO remove brainstorming
-/*
-AST:
-TranslationUnit
-└── FunctionDeclaration
-    ├── returnType: int
-    ├── name: main
-    ├── parameters: []
-    └── body:
-        └── ReturnStatement
-            └── IntegerLiteral: 2017
-*/
-
 // TODO docstrings
 // TODO cull unused ones until needed so we don't have them hanging around
 typedef enum {

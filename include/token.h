@@ -34,7 +34,7 @@ typedef enum token_kind_t {
  */
 typedef struct token_t {
     token_kind_t kind;
-    char *filename;
+    char *filename; // TODO token should not own this because wasteful
     size_t line;
     size_t column;
     union {
