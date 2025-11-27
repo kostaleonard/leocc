@@ -16,7 +16,9 @@ void ast_node_destroy(ast_node_t *node) {
         Throw(FAILURE_INVALID_INPUT);
     }
     switch (node->kind) {
-        
+        // TODO
+        default:
+            break;
     }
     // TODO
     free(node);

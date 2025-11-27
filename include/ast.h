@@ -6,8 +6,9 @@
 #define INCLUDE_AST_H_
 #include "include/types.h"
 
-// TODO docstrings
-// TODO cull unused ones until needed so we don't have them hanging around
+/**
+ * @brief Represents a node in the AST.
+ */
 typedef enum {
     AST_TRANSLATION_UNIT,
     AST_FUNCTION_DEF,

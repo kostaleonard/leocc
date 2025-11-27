@@ -12,20 +12,20 @@
 #include "tests/include/test_token.h"
 
 void test_free_token_does_nothing_on_null_input() {
-    free_token(NULL);
+    token_destroy(NULL);
 }
 
 void test_free_token_frees_keyword_token() {
     token_t *token = calloc(1, sizeof(token_t));
     token->kind = TOK_INT;
-    free_token(token);
+    token_destroy(token);
 }
 
 void test_free_token_frees_literal_int_token() {
     token_t *token = calloc(1, sizeof(token_t));
     token->kind = TOK_INT_LITERAL;
     token->data.int_value = 2017;
-    free_token(token);
+    token_destroy(token);
 }
 
 void test_free_token_frees_identifier_token() {
@@ -33,5 +33,5 @@ void test_free_token_frees_identifier_token() {
     token->kind = TOK_IDENTIFIER;
     token->data.ident = malloc(256);
     strncpy(token->data.ident, "my_identifier", 256);
-    free_token(token);
+    token_destroy(token);
 }

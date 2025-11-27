@@ -19,6 +19,19 @@ typedef enum token_kind_t {
     TOK_EOF,
 } token_kind_t;
 
+typedef struct source_loc_t {
+    char *filename;
+    size_t line;
+    size_t column;
+} source_loc_t;
+
+typedef union token_data_t {
+    long int_value;
+    double float_value;
+    char *string_value;
+    char *ident;
+} token_data_t;
+
 /**
  * @brief Represents a token in the C language.
  * 
@@ -28,29 +41,36 @@ typedef enum token_kind_t {
  * @param line The line number on which the token appears in its file.
  * @param column The column on which the first character of the token appears in
  * its file.
- * @param data A pointer to other data describing the token. For example, if the
- * token was a literal int, the pointer would point to a data structure
- * containing this value (and potentially other relevant information).
+ * @param data A union containing data describing the token. For example, if the
+ * token was a literal int, the data could be read as an int to retrieve the
+ * literal int value. Some token kinds do not have data, such as keyword tokens.
+ * In this case, the data field is unused and can be set to 0 (or any other
+ * value, since it will not be used).
  */
 typedef struct token_t {
     token_kind_t kind;
-    char *filename; // TODO token should not own this because wasteful
-    size_t line;
-    size_t column;
-    union {
-        long int_value;       // for integer constants
-        double float_value;   // for floating-point constants
-        char *string_value;   // for string or char literals (malloc’d)
-        char *ident;          // for identifiers
-    } data;
+    source_loc_t loc;
+    token_data_t data;
 } token_t;
+
+/**
+ * @brief Returns a new token.
+ * 
+ * @param kind The token's kind.
+ * @param loc The location where this token appears. This token will assume that
+ * it owns loc.filename if it is not NULL, and will attempt to free it when
+ * token_destroy is called.
+ * @param data The token's data. If the token's kind indicates that data
+ * contains a string, this token will assume that it owns it and will attempt to
+ * free it when token_destroy is called.
+ */
+token_t *token_create(token_kind_t kind, source_loc_t loc, token_data_t data);
 
 /**
  * @brief Frees token and all memory associated with it.
  * 
  * If token is NULL, the function does nothing.
  */
-void free_token(token_t *token);
-// TODO rename to token_destroy for consistency
+void token_destroy(token_t *token);
 
 #endif  // INCLUDE_TOKEN_H_

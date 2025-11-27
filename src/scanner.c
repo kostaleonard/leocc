@@ -187,11 +187,12 @@ token_t *scanner_next(scanner_t *scanner) {
     return token;
 }
 
+// TODO where used?
 list_t *scanner_all(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    list_t *tokens = list_create((free_function_t *)free_token, NULL);
+    list_t *tokens = list_create((free_function_t *)token_destroy, NULL);
     token_t *token = NULL;
     do {
         token = scanner_next(scanner);

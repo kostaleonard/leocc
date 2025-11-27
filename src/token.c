@@ -2,32 +2,30 @@
 #include "include/exceptions.h"
 #include "include/token.h"
 
-void free_token(token_t *token) {
+token_t *token_create(token_kind_t kind, source_loc_t loc, token_data_t data) {
+    token_t *token = calloc(1, sizeof(token_t));
+    if (NULL == token) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
+    token->kind = kind;
+    token->loc = loc;
+    token->data = data;
+    return token;
+}
+
+void token_destroy(token_t *token) {
     if (NULL == token) {
         return;
     }
-    if (NULL != token->filename) {
-        free(token->filename);
+    if (NULL != token->loc.filename) {
+        free(token->loc.filename);
     }
     switch (token->kind) {
-        case TOK_INT:
-        case TOK_LPAREN:
-        case TOK_RPAREN:
-        case TOK_LBRACE:
-        case TOK_RETURN:
-        case TOK_SEMICOLON:
-        case TOK_RBRACE:
-        case TOK_EOF:
-        case TOK_INT_LITERAL:
-            free(token);
-        break;
         case TOK_IDENTIFIER:
             free(token->data.ident);
-            free(token);
-        break;
+            break;
         default:
-            fprintf(
-                stderr, "Undefined free behavior for token %d\n", token->kind);
-            Throw(FAILURE_INVALID_INPUT);
+            break;
     }
+    free(token);
 }

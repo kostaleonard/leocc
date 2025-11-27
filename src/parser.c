@@ -33,7 +33,7 @@ static void parser_advance(parser_t *parser) {
         Throw(FAILURE_INVALID_INPUT);
     }
     if (parser->current->kind != TOK_EOF) {
-        free_token(parser->current);
+        token_destroy(parser->current);
         parser->current = parser->lookahead;
         parser->lookahead = preprocessor_next(parser->pp);
     }
