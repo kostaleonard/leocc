@@ -47,7 +47,7 @@ scanner_t *scanner_create_from_text(char *text) {
         free(scanner);
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
-    scanner->line = 1;
+    scanner->loc.line = 1;
     return scanner;
 }
 
@@ -58,8 +58,8 @@ scanner_t *scanner_create_from_file(char *filename) {
     char *text = read_program_text(filename);
     scanner_t *scanner = scanner_create_from_text(text);
     free(text);
-    scanner->filename = strdup(filename);
-    if (NULL == scanner->filename) {
+    scanner->loc.filename = strdup(filename);
+    if (NULL == scanner->loc.filename) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
     return scanner;
@@ -69,8 +69,8 @@ void scanner_destroy(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    if (NULL != scanner->filename) {
-        free(scanner->filename);
+    if (NULL != scanner->loc.filename) {
+        free(scanner->loc.filename);
     }
     free(scanner->text);
     free(scanner);
@@ -85,10 +85,10 @@ static void scanner_skip_whitespace(scanner_t *scanner) {
     }
     while (isspace(scanner->text[scanner->idx])) {
         if (scanner->text[scanner->idx] == '\n') {
-            scanner->line++;
-            scanner->column = 0;
+            scanner->loc.line++;
+            scanner->loc.column = 0;
         } else {
-            scanner->column++;
+            scanner->loc.column++;
         }
         scanner->idx++;
     }
@@ -104,7 +104,7 @@ static void scan_num(scanner_t *scanner, token_t *token) {
     token->data.int_value = num;
     size_t idx_diff = endptr - (scanner->text + scanner->idx);
     scanner->idx += idx_diff;
-    scanner->column += idx_diff;
+    scanner->loc.column += idx_diff;
 }
 
 /**
@@ -124,7 +124,7 @@ static void scan_identifier(scanner_t *scanner, token_t *token) {
     strncpy(token->data.ident, scanner->text + start, end - start);
     size_t idx_diff = end - start;
     scanner->idx += idx_diff;
-    scanner->column += idx_diff;
+    scanner->loc.column += idx_diff;
 }
 
 token_t *scanner_next(scanner_t *scanner) {
@@ -135,47 +135,47 @@ token_t *scanner_next(scanner_t *scanner) {
     if (NULL == token) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
-    if (NULL != scanner->filename) {
-        token->loc.filename = strdup(scanner->filename);
+    if (NULL != scanner->loc.filename) {
+        token->loc.filename = strdup(scanner->loc.filename);
         if (NULL == token->loc.filename) {
             Throw(FAILURE_COULD_NOT_MALLOC);
         }
     }
     scanner_skip_whitespace(scanner);
-    token->loc.line = scanner->line;
-    token->loc.column = scanner->column;
+    token->loc.line = scanner->loc.line;
+    token->loc.column = scanner->loc.column;
     char c = scanner->text[scanner->idx];
     if (c == '\0') {
         token->kind = TOK_EOF;
     } else if (c == '(') {
         token->kind = TOK_LPAREN;
-        scanner->column++;
+        scanner->loc.column++;
         scanner->idx++;
     } else if (c == ')') {
         token->kind = TOK_RPAREN;
-        scanner->column++;
+        scanner->loc.column++;
         scanner->idx++;
     } else if (c == '{') {
         token->kind = TOK_LBRACE;
-        scanner->column++;
+        scanner->loc.column++;
         scanner->idx++;
     } else if (c == '}') {
         token->kind = TOK_RBRACE;
-        scanner->column++;
+        scanner->loc.column++;
         scanner->idx++;
     } else if (c == ';') {
         token->kind = TOK_SEMICOLON;
-        scanner->column++;
+        scanner->loc.column++;
         scanner->idx++;
     } else if (0 == strncmp(
             scanner->text + scanner->idx, "int", strlen("int"))) {
         token->kind = TOK_INT;
-        scanner->column += strlen("int");
+        scanner->loc.column += strlen("int");
         scanner->idx += strlen("int");
     } else if (0 == strncmp(
             scanner->text + scanner->idx, "return", strlen("return"))) {
         token->kind = TOK_RETURN;
-        scanner->column += strlen("return");
+        scanner->loc.column += strlen("return");
         scanner->idx += strlen("return");
     } else if (isdigit(c)) {
         scan_num(scanner, token);
@@ -187,7 +187,6 @@ token_t *scanner_next(scanner_t *scanner) {
     return token;
 }
 
-// TODO where used?
 list_t *scanner_all(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
