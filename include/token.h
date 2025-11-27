@@ -54,19 +54,6 @@ typedef struct token_t {
 } token_t;
 
 /**
- * @brief Returns a new token.
- * 
- * @param kind The token's kind.
- * @param loc The location where this token appears. This token will assume that
- * it owns loc.filename if it is not NULL, and will attempt to free it when
- * token_destroy is called.
- * @param data The token's data. If the token's kind indicates that data
- * contains a string, this token will assume that it owns it and will attempt to
- * free it when token_destroy is called.
- */
-token_t *token_create(token_kind_t kind, source_loc_t loc, token_data_t data);
-
-/**
  * @brief Frees token and all memory associated with it.
  * 
  * If token is NULL, the function does nothing.

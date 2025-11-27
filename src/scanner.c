@@ -136,14 +136,14 @@ token_t *scanner_next(scanner_t *scanner) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
     if (NULL != scanner->filename) {
-        token->filename = strdup(scanner->filename);
-        if (NULL == token->filename) {
+        token->loc.filename = strdup(scanner->filename);
+        if (NULL == token->loc.filename) {
             Throw(FAILURE_COULD_NOT_MALLOC);
         }
     }
     scanner_skip_whitespace(scanner);
-    token->line = scanner->line;
-    token->column = scanner->column;
+    token->loc.line = scanner->line;
+    token->loc.column = scanner->column;
     char c = scanner->text[scanner->idx];
     if (c == '\0') {
         token->kind = TOK_EOF;
