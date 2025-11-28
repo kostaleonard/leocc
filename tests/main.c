@@ -8,16 +8,13 @@
 #include <setjmp.h>
 #include <cmocka.h>
 #include <stdbool.h>
-#include "tests/include/test_fib.h"
 #include "tests/include/test_list.h"
 #include "tests/include/test_token.h"
 #include "tests/include/test_scanner.h"
+#include "tests/include/test_parser.h"
 
 int main(int argc, char **argv) {
     const struct CMUnitTest tests[] = {
-        // test_fib.h
-        cmocka_unit_test(test_fib_returns_fibonacci_number),
-        cmocka_unit_test(test_fib_throws_error_on_negative_input),
         // test_list.h
         cmocka_unit_test(test_list_create_returns_list),
         cmocka_unit_test(test_list_create_fails_on_invalid_input),
@@ -62,11 +59,14 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_free_token_frees_literal_int_token),
         cmocka_unit_test(test_free_token_frees_identifier_token),
         // test_scanner.h
-        cmocka_unit_test(test_scan_fails_on_invalid_input),
-        cmocka_unit_test(test_scan_tokenizes_one_keyword),
-        cmocka_unit_test(test_scan_tokenizes_several_keywords),
-        cmocka_unit_test(test_scan_skips_whitespace),
-        cmocka_unit_test(test_scan_tokenizes_simple_program),
+        cmocka_unit_test(test_scanner_all_fails_on_invalid_input),
+        cmocka_unit_test(test_scanner_all_tokenizes_one_keyword),
+        cmocka_unit_test(test_scanner_all_tokenizes_several_keywords),
+        cmocka_unit_test(test_scanner_all_skips_whitespace),
+        cmocka_unit_test(test_scanner_all_tokenizes_simple_program),
+        // test_parser.h
+        cmocka_unit_test(test_parse_fails_on_invalid_input),
+        cmocka_unit_test(test_parse_single_function_declaration),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
