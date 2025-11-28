@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <inttypes.h>
 #include "include/exceptions.h"
 #include "include/ast.h"
 
@@ -85,7 +86,7 @@ static void ast_node_print_tree(ast_node_t *node, size_t indent_level) {
             printf("AST_IDENTIFIER: %s\n", node->data.ident);
             break;
         case AST_INT_LITERAL:
-            printf("AST_INT_LITERAL: %lld\n", node->data.int_value);
+            printf("AST_INT_LITERAL:%" PRId64 "\n", node->data.int_value);
             break;
         case AST_STRING_LITERAL:
             printf("AST_STRING_LITERAL:\n");
