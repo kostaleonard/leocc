@@ -10,7 +10,15 @@
 #include "include/types.h"
 #include "include/ast.h"
 
-// TODO docstrings
+/**
+ * @brief The parser takes tokens and produces an abstract syntax tree.
+ * 
+ * @param pp The preprocessor.
+ * @param filename The name of the translation unit being parsed.
+ * @param current The current token, not yet consumed. Supplied by the
+ * preprocessor.
+ * @param lookahead The token after current.
+ */
 typedef struct parser_t {
     preprocessor_t *pp;
     char *filename;
@@ -18,7 +26,6 @@ typedef struct parser_t {
     token_t *lookahead;
 } parser_t;
 
-// TODO look into these enums and structs
 typedef enum {
     STORAGE_NONE,
     STORAGE_TYPEDEF,
@@ -34,10 +41,19 @@ typedef struct decl_spec_t {
     type_qual_t qualifiers;
 } decl_spec_t;
 
+/**
+ * @brief Returns a new parser on the preprocessor's current file. 
+ */
 parser_t *parser_create(preprocessor_t *pp);
 
+/**
+ * @brief Frees all memory associated with the parser.
+ */
 void parser_destroy(parser_t *parser);
 
+/**
+ * @brief Parses the current program and returns the abstract syntax tree.
+ */
 ast_node_t *parse_translation_unit(parser_t *parser);
 
 #endif  // INCLUDE_PARSER_H_

@@ -60,4 +60,9 @@ typedef struct token_t {
  */
 void token_destroy(token_t *token);
 
+/**
+ * @brief Copies the source_loc_t, duplicating string pointers.
+ */
+source_loc_t source_loc_dup(source_loc_t loc);
+
 #endif  // INCLUDE_TOKEN_H_

@@ -8,6 +8,9 @@ preprocessor_t *preprocessor_create(scanner_t *scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
     preprocessor_t *pp = calloc(1, sizeof(preprocessor_t));
+    if (NULL == pp) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
     pp->scanner = scanner;
     return pp;
 }

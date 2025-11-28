@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "include/exceptions.h"
 #include "include/token.h"
 
@@ -17,4 +18,13 @@ void token_destroy(token_t *token) {
             break;
     }
     free(token);
+}
+
+source_loc_t source_loc_dup(source_loc_t loc) {
+    source_loc_t copy = loc;
+    copy.filename = strdup(loc.filename);
+    if (NULL == copy.filename) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
+    return copy;
 }
