@@ -26,6 +26,7 @@ void parser_destroy(parser_t *parser) {
     if (NULL == parser) {
         Throw(FAILURE_INVALID_INPUT);
     }
+    preprocessor_destroy(parser->pp);
     free(parser->filename);
     token_destroy(parser->current);
     token_destroy(parser->lookahead);
