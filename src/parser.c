@@ -11,9 +11,11 @@ parser_t *parser_create(preprocessor_t *pp) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
     parser->pp = pp;
-    parser->filename = strdup(pp->scanner->loc.filename);
-    if (NULL == parser->filename) {
-        Throw(FAILURE_COULD_NOT_MALLOC);
+    if (NULL != pp->scanner->loc.filename) {
+        parser->filename = strdup(pp->scanner->loc.filename);
+        if (NULL == parser->filename) {
+            Throw(FAILURE_COULD_NOT_MALLOC);
+        }
     }
     parser->current = preprocessor_next(parser->pp);
     parser->lookahead = preprocessor_next(parser->pp);

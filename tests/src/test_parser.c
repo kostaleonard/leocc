@@ -26,29 +26,40 @@ void test_parse_fails_on_invalid_input() {
 }
 
 void test_parse_single_function_declaration() {
-    /*
-    list_t *tokens = scan("int main() {\n\treturn 2017;\n}\n");
-    ast_t *ast = parse(tokens);
-    assert_true(NULL != ast);
-    assert_true(1 == list_length(ast->root->declarations));
-    declaration_t *declaration =
-        (declaration_t *)ast->root->declarations->head->data;
-    assert_true(FUNCTION_DECLARATION == declaration->kind);
-    function_declaration_data_t *fdd =
-        (function_declaration_data_t *)declaration->data;
-    assert_true(0 == strncmp(fdd->name, "main", strlen("main")));
-    assert_true(TYPE_INT == fdd->return_type);
-    assert_true(1 == list_length(fdd->body));
-    statement_t *stmt = (statement_t *)fdd->body->head->data;
-    assert_true(STATEMENT_RETURN == stmt->kind);
-    return_statement_data_t *rsd = (return_statement_data_t *)stmt->data;
-    assert_true(EXPR_INT_LITERAL == rsd->return_value->kind);
-    expr_int_literal_data_t *eild =
-        (expr_int_literal_data_t *)rsd->return_value->data;
-    assert_true(2017 == eild->value);
-    list_destroy(tokens);
-    ast_destroy(ast);
-    */
-   // TODO
-   assert_true(false);
+    scanner_t *scanner = scanner_create_from_text(
+        "int main() {\n\treturn 2017;\n}\n");
+    preprocessor_t *pp = preprocessor_create(scanner);
+    parser_t *parser = parser_create(pp);
+    ast_node_t *ast = parse_translation_unit(parser);
+    assert_true(AST_TRANSLATION_UNIT == ast->kind);
+    assert_true(1 == ast->child_count);
+    ast_node_t *function_def = ast->children[0];
+    assert_true(AST_FUNCTION_DEF == function_def->kind);
+    assert_true(3 == function_def->child_count);
+    ast_node_t *decl_specifiers = function_def->children[0];
+    assert_true(AST_DECL_SPECIFIERS == decl_specifiers->kind);
+    assert_true(1 == decl_specifiers->child_count);
+    ast_node_t *type_specifier = decl_specifiers->children[0];
+    assert_true(AST_TYPE_SPECIFIER == type_specifier->kind);
+    assert_true(TYPE_INT == type_specifier->data.type_spec);
+    assert_true(0 == type_specifier->child_count);
+    ast_node_t *declarator = function_def->children[1];
+    assert_true(AST_DECLARATOR == declarator->kind);
+    assert_true(1 == declarator->child_count);
+    ast_node_t *identifier = declarator->children[0];
+    assert_true(AST_IDENTIFIER == identifier->kind);
+    assert_true(0 == strcmp(identifier->data.ident, "main"));
+    assert_true(0 == identifier->child_count);
+    ast_node_t *compound_stmt = function_def->children[2];
+    assert_true(AST_COMPOUND_STMT == compound_stmt->kind);
+    assert_true(1 == compound_stmt->child_count);
+    ast_node_t *return_stmt = compound_stmt->children[0];
+    assert_true(AST_RETURN_STMT == return_stmt->kind);
+    assert_true(1 == return_stmt->child_count);
+    ast_node_t *int_literal = return_stmt->children[0];
+    assert_true(AST_INT_LITERAL == int_literal->kind);
+    assert_true(2017 == int_literal->data.int_value);
+    assert_true(0 == int_literal->child_count);
+    ast_node_destroy(ast);
+    parser_destroy(parser);
 }
