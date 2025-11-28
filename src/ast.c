@@ -15,12 +15,18 @@ void ast_node_destroy(ast_node_t *node) {
     if (NULL == node) {
         Throw(FAILURE_INVALID_INPUT);
     }
+    for (size_t idx = 0; idx < node->child_count; idx++) {
+        ast_node_destroy(node->children[idx]);
+    }
+    free(node->loc.filename);
+    free(node->children);
     switch (node->kind) {
-        // TODO
+        case AST_IDENTIFIER:
+            free(node->data.ident);
+            break;
         default:
             break;
     }
-    // TODO
     free(node);
 }
 
@@ -28,7 +34,8 @@ void ast_add_child(ast_node_t *parent, ast_node_t *child) {
     if (NULL == parent || NULL == child) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    parent->children = realloc(parent->children, (1 + parent->child_count) * sizeof(ast_node_t *));
+    parent->children = realloc(
+        parent->children, (1 + parent->child_count) * sizeof(ast_node_t *));
     if (NULL == parent->children) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
@@ -78,7 +85,7 @@ static void ast_node_print_tree(ast_node_t *node, size_t indent_level) {
             printf("AST_IDENTIFIER: %s\n", node->data.ident);
             break;
         case AST_INT_LITERAL:
-            printf("AST_INT_LITERAL: %ld\n", node->data.int_value);
+            printf("AST_INT_LITERAL: %lld\n", node->data.int_value);
             break;
         case AST_STRING_LITERAL:
             printf("AST_STRING_LITERAL:\n");

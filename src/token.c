@@ -22,9 +22,11 @@ void token_destroy(token_t *token) {
 
 source_loc_t source_loc_dup(source_loc_t loc) {
     source_loc_t copy = loc;
-    copy.filename = strdup(loc.filename);
-    if (NULL == copy.filename) {
-        Throw(FAILURE_COULD_NOT_MALLOC);
+    if (NULL != loc.filename) {
+        copy.filename = strdup(loc.filename);
+        if (NULL == copy.filename) {
+            Throw(FAILURE_COULD_NOT_MALLOC);
+        }
     }
     return copy;
 }

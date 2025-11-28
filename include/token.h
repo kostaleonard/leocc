@@ -5,6 +5,7 @@
 #ifndef INCLUDE_TOKEN_H_
 #define INCLUDE_TOKEN_H_
 #include <stddef.h>
+#include <stdint.h>
 
 typedef enum token_kind_t {
     TOK_INT,
@@ -26,7 +27,7 @@ typedef struct source_loc_t {
 } source_loc_t;
 
 typedef union token_data_t {
-    long int_value;
+    int64_t int_value;
     double float_value;
     char *string_value;
     char *ident;
@@ -37,10 +38,7 @@ typedef union token_data_t {
  * 
  * @param kind A code indicating the kind of token. This code tells the user how
  * to interpret (i.e., cast) the data pointer.
- * @param filename The name of the file in which the token appears.
- * @param line The line number on which the token appears in its file.
- * @param column The column on which the first character of the token appears in
- * its file.
+ * @param loc The token's file and position within that file.
  * @param data A union containing data describing the token. For example, if the
  * token was a literal int, the data could be read as an int to retrieve the
  * literal int value. Some token kinds do not have data, such as keyword tokens.

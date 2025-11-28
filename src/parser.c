@@ -12,6 +12,9 @@ parser_t *parser_create(preprocessor_t *pp) {
     }
     parser->pp = pp;
     parser->filename = strdup(pp->scanner->loc.filename);
+    if (NULL == parser->filename) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
     parser->current = preprocessor_next(parser->pp);
     parser->lookahead = preprocessor_next(parser->pp);
     return parser;
@@ -54,12 +57,14 @@ static void parser_expect(parser_t *parser, token_kind_t expected) {
 
 static ast_node_t *parse_declarator(parser_t *parser) {
     ast_node_t *decl = ast_node_create(AST_DECLARATOR);
-    // TODO fix loc throughout code base
-    //decl->loc = parser->current->loc;
+    decl->loc = source_loc_dup(parser->current->loc);
     if (parser->current->kind == TOK_IDENTIFIER) {
         ast_node_t *id = ast_node_create(AST_IDENTIFIER);
-        //id->loc = parser->current->loc;
+        id->loc = source_loc_dup(parser->current->loc);
         id->data.ident = strdup(parser->current->data.ident);
+        if (NULL == id->data.ident) {
+            Throw(FAILURE_COULD_NOT_MALLOC);
+        }
         ast_add_child(decl, id);
         parser_advance(parser);
     } else {
@@ -75,7 +80,7 @@ static ast_node_t *parse_primary_expression(parser_t *parser) {
     switch (parser->current->kind) {
         case TOK_INT_LITERAL:
             node = ast_node_create(AST_INT_LITERAL);
-            //node->loc = parser->current->loc;
+            node->loc = source_loc_dup(parser->current->loc);
             node->data.int_value = parser->current->data.int_value;
             parser_advance(parser);
             break;
@@ -92,7 +97,7 @@ static ast_node_t *parse_expression(parser_t *parser) {
 
 static ast_node_t *parse_return_statement(parser_t *parser) {
     ast_node_t *node = ast_node_create(AST_RETURN_STMT);
-    //node->loc = parser->current->loc;
+    node->loc = source_loc_dup(parser->current->loc);
     parser_expect(parser, TOK_RETURN);
     if (parser->current->kind != TOK_SEMICOLON) {
         ast_node_t *expr = parse_expression(parser);
@@ -103,12 +108,12 @@ static ast_node_t *parse_return_statement(parser_t *parser) {
 }
 
 static ast_node_t *parse_statement(parser_t *parser) {
-   return parse_return_statement(parser);
+    return parse_return_statement(parser);
 }
 
 static ast_node_t *parse_compound_statement(parser_t *parser) {
     ast_node_t *block = ast_node_create(AST_COMPOUND_STMT);
-    //block->loc = parser->current->loc;
+    block->loc = source_loc_dup(parser->current->loc);
     parser_expect(parser, TOK_LBRACE);
     while (parser->current->kind != TOK_RBRACE &&
            parser->current->kind != TOK_EOF) {
@@ -122,9 +127,9 @@ static ast_node_t *parse_compound_statement(parser_t *parser) {
 static ast_node_t *parse_function_definition(
     parser_t *parser, decl_spec_t *spec) {
     ast_node_t *fn = ast_node_create(AST_FUNCTION_DEF);
-    //fn->loc = parser->current->loc;
+    fn->loc = source_loc_dup(parser->current->loc);
     ast_node_t *specs_node = ast_node_create(AST_DECL_SPECIFIERS);
-    //specs_node->loc = parser->current->loc;
+    specs_node->loc = source_loc_dup(parser->current->loc);
     if (spec->type_spec != TYPE_NONE) {
         ast_node_t *type = ast_node_create(AST_TYPE_SPECIFIER);
         type->data.type_spec = spec->type_spec;
@@ -169,7 +174,7 @@ static ast_node_t *parse_external_declaration(parser_t *parser) {
         TOK_LPAREN == parser->lookahead->kind) {
         return parse_function_definition(parser, &spec);
     }
-   return NULL;
+    return NULL;
 }
 
 ast_node_t *parse_translation_unit(parser_t *parser) {

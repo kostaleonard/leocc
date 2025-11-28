@@ -13,7 +13,7 @@ static char *read_program_text(char *filename) {
         fclose(fp);
         Throw(FAILURE_FILE_IO);
     }
-    long size = ftell(fp);
+    long size = ftell(fp);  // NOLINT(runtime/int)
     if (size < 0) {
         fclose(fp);
         Throw(FAILURE_FILE_IO);
@@ -131,19 +131,12 @@ token_t *scanner_next(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
+    scanner_skip_whitespace(scanner);
     token_t *token = calloc(1, sizeof(token_t));
     if (NULL == token) {
         Throw(FAILURE_COULD_NOT_MALLOC);
     }
-    if (NULL != scanner->loc.filename) {
-        token->loc.filename = strdup(scanner->loc.filename);
-        if (NULL == token->loc.filename) {
-            Throw(FAILURE_COULD_NOT_MALLOC);
-        }
-    }
-    scanner_skip_whitespace(scanner);
-    token->loc.line = scanner->loc.line;
-    token->loc.column = scanner->loc.column;
+    token->loc = source_loc_dup(scanner->loc);
     char c = scanner->text[scanner->idx];
     if (c == '\0') {
         token->kind = TOK_EOF;
