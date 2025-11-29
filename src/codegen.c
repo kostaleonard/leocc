@@ -34,7 +34,9 @@ static void codegen_destroy(codegen_t *cg) {
 }
 
 static void codegen_label(codegen_t *cg, ast_node_t *function_def) {
-    if (NULL == cg || NULL == function_def || AST_FUNCTION_DEF != function_def->kind) {
+    if (NULL == cg ||
+        NULL == function_def ||
+        AST_FUNCTION_DEF != function_def->kind) {
         Throw(FAILURE_INVALID_INPUT);
     }
     string_builder_t *sb = cg->sb;
@@ -90,7 +92,6 @@ char *codegen_translation_unit(ast_node_t *ast) {
     for (size_t idx = 0; idx < ast->child_count; idx++) {
         ast_node_t *top_level_child = ast->children[idx];
         if (AST_FUNCTION_DEF == top_level_child->kind) {
-            // TODO when we implement storage classes in the AST, static functions are not made global in the assembly
             ast_node_t *declarator = top_level_child->children[1];
             ast_node_t *identifier = declarator->children[0];
             string_builder_append(sb, "global ");
