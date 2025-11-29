@@ -7,23 +7,11 @@
 #include <stddef.h>
 #include "include/ast.h"
 
-// TODO this data structure is an implementation detail that should live in codegen.c
 /**
- * @brief The code generator transforms the AST into assembly.
+ * @brief Returns the assembly code generated from the AST.
  * 
- * @param sb The assembly code produced during code generation.
- * @param next_label The next label to be used during code generation.
+ * @param ast The root of translation unit's AST.
  */
-typedef struct codegen_t {
-    string_builder_t *sb;
-    int next_label;
-} codegen_t;
-
-char *codegen_generate_translation_unit(codegen_t *cg, ast_node_t *ast);
-
-// TODO these will be static functions in codegen.c
-codegen_t *codegen_create();
-
-void codegen_destroy(codegen_t *cg);
+char *codegen_translation_unit(ast_node_t *ast);
 
 #endif  // INCLUDE_CODEGEN_H_
