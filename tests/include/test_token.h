@@ -1,3 +1,7 @@
+/**
+ * @brief Tests token.c.
+ */
+
 #ifndef TESTS_INCLUDE_TEST_TOKEN_H_
 #define TESTS_INCLUDE_TEST_TOKEN_H_
 
