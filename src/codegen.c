@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "include/exceptions.h"
 #include "include/codegen.h"
 #include "include/string_builder.h"
 
@@ -15,23 +16,29 @@ typedef struct codegen_t {
 } codegen_t;
 
 static codegen_t *codegen_create() {
-    // TODO
-    return NULL;
+    codegen_t *cg = calloc(1, sizeof(codegen_t));
+    if (NULL == cg) {
+        Throw(FAILURE_COULD_NOT_MALLOC);
+    }
+    cg->sb = string_builder_create();
+    return cg;
 }
 
 static void codegen_destroy(codegen_t *cg) {
-    // TODO
+    if (NULL == cg) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    string_builder_destroy(cg->sb);
+    free(cg);
 }
 
 char *codegen_translation_unit(ast_node_t *ast) {
-    // TODO
+    if (NULL == ast) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
     codegen_t *cg = codegen_create();
+    char *prog = strdup(cg->sb->data);
+    // TODO
     codegen_destroy(cg);
-    return strdup(
-"default rel\n"
-"global main\n\n"
-"section .text\n\n"
-"main:\n"
-"\tmov     rax, 2017\n"
-"\tret\n");
+    return prog;
 }
