@@ -6,13 +6,26 @@
 #include "include/ast.h"
 #include "include/codegen.h"
 
+static void write_file(char *path, char *contents) {
+    FILE *f = fopen(path, "w");
+    if (!f) {
+        Throw(FAILURE_FILE_IO);
+    }
+    if (fputs(contents, f) == EOF) {
+        Throw(FAILURE_FILE_IO);
+    }
+    fclose(f);
+}
+
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
     preprocessor_t *pp = preprocessor_create(scanner);
     parser_t *parser = parser_create(pp);
     ast_node_t *ast = parse_translation_unit(parser);
     char *assembly_prog = codegen_translation_unit(ast);
-    printf("%s\n", assembly_prog);
+    write_file("leocc_out.asm", assembly_prog);
+    system("nasm -f win64 leocc_out.asm -o leocc_out.obj");
+    system("gcc -o leocc_out.exe leocc_out.obj");
     free(assembly_prog);
     ast_node_destroy(ast);
     parser_destroy(parser);
