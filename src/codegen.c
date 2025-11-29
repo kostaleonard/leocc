@@ -23,5 +23,7 @@ static void codegen_destroy(codegen_t *cg) {
 
 char *codegen_translation_unit(ast_node_t *ast) {
     // TODO
+    codegen_t *cg = codegen_create();
+    codegen_destroy(cg);
     return NULL;
 }
