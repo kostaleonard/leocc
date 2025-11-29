@@ -66,6 +66,30 @@ void test_string_builder_append_fails_on_invalid_input() {
     string_builder_destroy(sb);
 }
 
+void test_string_builder_append_int_converts_num_to_str() {
+    string_builder_t *sb = string_builder_create();
+    string_builder_append(sb, "hello");
+    string_builder_append_int(sb, 2017);
+    assert_true(9 == sb->length);
+    assert_true(0 == strcmp(sb->data, "hello2017"));
+    string_builder_append_int(sb, -2);
+    assert_true(11 == sb->length);
+    assert_true(0 == strcmp(sb->data, "hello2017-2"));
+    string_builder_destroy(sb);
+}
+
+void test_string_builder_append_int_fails_on_invalid_input() {
+    bool exception_thrown = false;
+    volatile CEXCEPTION_T e;
+    Try {
+        string_builder_append_int(NULL, 2017);
+    } Catch(e) {
+        exception_thrown = true;
+    }
+    assert_true(exception_thrown);
+    assert_true(FAILURE_INVALID_INPUT == e);
+}
+
 void test_string_builder_destroy_fails_on_invalid_input() {
     bool exception_thrown = false;
     volatile CEXCEPTION_T e;

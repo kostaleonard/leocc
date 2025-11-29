@@ -4,6 +4,7 @@
 #include "include/exceptions.h"
 
 #define INITIAL_CAPACITY 64
+#define INT_BUF_SIZE 64
 
 string_builder_t *string_builder_create() {
     string_builder_t *sb = calloc(1, sizeof(string_builder_t));
@@ -36,6 +37,15 @@ void string_builder_append(string_builder_t *sb, char *s) {
     strncpy(sb->data + sb->length, s, s_len);
     sb->length += s_len;
     sb->data[sb->length] = '\0';
+}
+
+void string_builder_append_int(string_builder_t *sb, int num) {
+    if (NULL == sb) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
+    char buf[INT_BUF_SIZE];
+    snprintf(buf, sizeof(buf), "%d", num);
+    string_builder_append(sb, buf);
 }
 
 void string_builder_destroy(string_builder_t *sb) {

@@ -75,6 +75,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_string_builder_append_adds_to_string),
         cmocka_unit_test(test_string_builder_append_expands_capacity),
         cmocka_unit_test(test_string_builder_append_fails_on_invalid_input),
+        cmocka_unit_test(test_string_builder_append_int_converts_num_to_str),
+        cmocka_unit_test(test_string_builder_append_int_fails_on_invalid_input),
         cmocka_unit_test(test_string_builder_destroy_fails_on_invalid_input),
         // test_codegen.h
         cmocka_unit_test(test_codegen_translation_unit_fails_on_invalid_input),

@@ -40,6 +40,11 @@ string_builder_t *string_builder_create();
 void string_builder_append(string_builder_t *sb, char *s);
 
 /**
+ * @brief Converts the integer to string, then appends it.
+ */
+void string_builder_append_int(string_builder_t *sb, int num);
+
+/**
  * @brief Frees all memory associated with the string builder.
  */
 void string_builder_destroy(string_builder_t *sb);

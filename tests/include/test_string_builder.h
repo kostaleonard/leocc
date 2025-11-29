@@ -13,6 +13,10 @@ void test_string_builder_append_expands_capacity();
 
 void test_string_builder_append_fails_on_invalid_input();
 
+void test_string_builder_append_int_converts_num_to_str();
+
+void test_string_builder_append_int_fails_on_invalid_input();
+
 void test_string_builder_destroy_fails_on_invalid_input();
 
 #endif  // TESTS_INCLUDE_TEST_STRING_BUILDER_H_
