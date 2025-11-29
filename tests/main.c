@@ -13,6 +13,7 @@
 #include "tests/include/test_scanner.h"
 #include "tests/include/test_parser.h"
 #include "tests/include/test_string_builder.h"
+#include "tests/include/test_codegen.h"
 
 int main(int argc, char **argv) {
     const struct CMUnitTest tests[] = {
@@ -75,6 +76,9 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_string_builder_append_expands_capacity),
         cmocka_unit_test(test_string_builder_append_fails_on_invalid_input),
         cmocka_unit_test(test_string_builder_destroy_fails_on_invalid_input),
+        // test_codegen.h
+        cmocka_unit_test(test_codegen_translation_unit_fails_on_invalid_input),
+        cmocka_unit_test(test_codegen_translation_unit_simple_program),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
