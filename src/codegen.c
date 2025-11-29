@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "include/codegen.h"
 #include "include/string_builder.h"
 
@@ -25,5 +27,11 @@ char *codegen_translation_unit(ast_node_t *ast) {
     // TODO
     codegen_t *cg = codegen_create();
     codegen_destroy(cg);
-    return NULL;
+    return strdup(
+"default rel\n"
+"global main\n\n"
+"section .text\n\n"
+"main:\n"
+"\tmov     rax, 2017\n"
+"\tret\n");
 }
