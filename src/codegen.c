@@ -109,8 +109,6 @@ char *codegen_translation_unit(ast_node_t *ast) {
         }
     }
     char *prog = strdup(sb->data);
-    // TODO remove print
-    printf("Program:\n%s", prog);
     codegen_destroy(cg);
     return prog;
 }

@@ -4,13 +4,18 @@
 #include "include/preprocessor.h"
 #include "include/parser.h"
 #include "include/ast.h"
+#include "include/codegen.h"
 
 static void compile_translation_unit(char *filename) {
     scanner_t *scanner = scanner_create_from_file(filename);
     preprocessor_t *pp = preprocessor_create(scanner);
     parser_t *parser = parser_create(pp);
     ast_node_t *ast = parse_translation_unit(parser);
-    ast_node_print(ast);
+    char *assembly_prog = codegen_translation_unit(ast);
+    printf("%s\n", assembly_prog);
+    // TODO: nasm -f win64 .\leocc_out.asm -o leocc_out.obj
+    // TODO: gcc -o leocc_out.exe .\leocc_out.obj
+    free(assembly_prog);
     ast_node_destroy(ast);
     parser_destroy(parser);
 }
