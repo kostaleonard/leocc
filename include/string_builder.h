@@ -34,9 +34,10 @@ string_builder_t *string_builder_create();
  * If this operation would cause length to exceed capacity, capacity is doubled
  * and data is realloc'd.
  * 
+ * @param sb The string builder.
  * @param s The string to append.
  */
-void string_builder_append(char *s);
+void string_builder_append(string_builder_t *sb, char *s);
 
 /**
  * @brief Frees all memory associated with the string builder.

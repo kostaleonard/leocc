@@ -71,6 +71,10 @@ int main(int argc, char **argv) {
         // test_string_builder.h
         cmocka_unit_test(
             test_string_builder_create_returns_empty_string_builder),
+        cmocka_unit_test(test_string_builder_append_adds_to_string),
+        cmocka_unit_test(test_string_builder_append_expands_capacity),
+        cmocka_unit_test(test_string_builder_append_fails_on_invalid_input),
+        cmocka_unit_test(test_string_builder_destroy_fails_on_invalid_input),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
