@@ -51,8 +51,9 @@ static void codegen_expr(codegen_t *cg, ast_node_t *expr) {
     string_builder_t *sb = cg->sb;
     switch (expr->kind) {
         case AST_INT_LITERAL:
-            // TODO get the actual number
-            string_builder_append(sb, "\tmov rax, 2017\n");
+            string_builder_append(sb, "\tmov rax, ");
+            string_builder_append_int(sb, expr->data.int_value);
+            string_builder_append(sb, "\n");
             break;
         default:
             Throw(FAILURE_INVALID_INPUT);
@@ -85,7 +86,6 @@ char *codegen_translation_unit(ast_node_t *ast) {
     }
     codegen_t *cg = codegen_create();
     string_builder_t *sb = cg->sb;
-    // TODO all the work
     string_builder_append(sb, "default rel\n");
     for (size_t idx = 0; idx < ast->child_count; idx++) {
         ast_node_t *top_level_child = ast->children[idx];
