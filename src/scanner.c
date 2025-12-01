@@ -77,20 +77,57 @@ void scanner_destroy(scanner_t *scanner) {
 }
 
 /**
- * @brief Advances the scanner to the next non-whitespace character.
+ * @brief Advances the scanner to the next non-whitespace, non-comment char.
  */
-static void scanner_skip_whitespace(scanner_t *scanner) {
+static void scanner_skip_whitespace_and_comments(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    while (isspace(scanner->text[scanner->idx])) {
-        if (scanner->text[scanner->idx] == '\n') {
-            scanner->loc.line++;
-            scanner->loc.column = 0;
-        } else {
-            scanner->loc.column++;
+    while (true) {
+        // Skip one space character.
+        if (isspace(scanner->text[scanner->idx])) {
+            if (scanner->text[scanner->idx] == '\n') {
+                scanner->loc.line++;
+                scanner->loc.column = 0;
+            } else {
+                scanner->loc.column++;
+            }
+            scanner->idx++;
+            continue;
         }
-        scanner->idx++;
+        // Skip single-line comment.
+        if (0 == strncmp(&scanner->text[scanner->idx], "//", 2)) {
+            while (scanner->text[scanner->idx] != '\0' &&
+                   scanner->text[scanner->idx] != '\n') {
+                scanner->loc.column++;
+                scanner->idx++;
+            }
+            continue;
+        }
+        // Skip block comment.
+        if (0 == strncmp(&scanner->text[scanner->idx], "/*", 2)) {
+            while (scanner->text[scanner->idx] != '\0' &&
+                   0 != strncmp(&scanner->text[scanner->idx], "*/", 2)) {
+                scanner->loc.column++;
+                scanner->idx++;
+            }
+            if (scanner->text[scanner->idx] == '\0') {
+                fprintf(
+                    stderr,
+                    "%s:%lld:%lld: error: Reached EOF before */\n",
+                    scanner->loc.filename,
+                    scanner->loc.line,
+                    scanner->loc.column
+                );
+                Throw(FAILURE_SCANNER_ERROR);
+            }
+            // Skip */
+            scanner->loc.column += 2;
+            scanner->idx += 2;
+            continue;
+        }
+        // We have encountered a non-whitespace, non-comment char.
+        break;
     }
 }
 
@@ -131,7 +168,7 @@ token_t *scanner_next(scanner_t *scanner) {
     if (NULL == scanner) {
         Throw(FAILURE_INVALID_INPUT);
     }
-    scanner_skip_whitespace(scanner);
+    scanner_skip_whitespace_and_comments(scanner);
     token_t *token = calloc(1, sizeof(token_t));
     if (NULL == token) {
         Throw(FAILURE_COULD_NOT_MALLOC);

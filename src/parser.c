@@ -55,7 +55,7 @@ static void parser_expect(parser_t *parser, token_kind_t expected) {
         Throw(FAILURE_INVALID_INPUT);
     }
     if (parser->current->kind != expected) {
-        Throw(FAILURE_PARSE_ERROR);
+        Throw(FAILURE_PARSER_ERROR);
     }
     parser_advance(parser);
 }
@@ -73,7 +73,7 @@ static ast_node_t *parse_declarator(parser_t *parser) {
         ast_add_child(decl, id);
         parser_advance(parser);
     } else {
-        Throw(FAILURE_PARSE_ERROR);
+        Throw(FAILURE_PARSER_ERROR);
     }
     parser_expect(parser, TOK_LPAREN);
     parser_expect(parser, TOK_RPAREN);
@@ -90,7 +90,7 @@ static ast_node_t *parse_primary_expression(parser_t *parser) {
             parser_advance(parser);
             break;
         default:
-            Throw(FAILURE_PARSE_ERROR);
+            Throw(FAILURE_PARSER_ERROR);
             break;
     }
     return node;
@@ -165,7 +165,7 @@ static decl_spec_t parse_decl_specifiers(parser_t *parser) {
                 spec.type_spec = TYPE_INT;
                 break;
             default:
-                Throw(FAILURE_PARSE_ERROR);
+                Throw(FAILURE_PARSER_ERROR);
                 break;
         }
         parser_advance(parser);

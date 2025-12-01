@@ -145,7 +145,7 @@ void test_scanner_next_skips_comment() {
         "int main() {\n"
         "\t//Ignore this comment\n"
         "\treturn 2017; // Ignore this comment\n"
-        "}"
+        "}//Ignore this comment"
     );
     token_t *token = scanner_next(scanner); // int
     token_destroy(token);
@@ -167,15 +167,21 @@ void test_scanner_next_skips_comment() {
     token = scanner_next(scanner); // }
     assert_true(TOK_RBRACE == token->kind);
     token_destroy(token);
+    // Keep asking for tokens--should always get EOF.
+    for (size_t idx = 0; idx < 5; idx++) {
+        token = scanner_next(scanner); // EOF
+        assert_true(TOK_EOF == token->kind);
+        token_destroy(token);
+    }
     scanner_destroy(scanner);
 }
 
 void test_scanner_next_skips_block_comment() {
     scanner_t *scanner = scanner_create_from_text(
         "/**Ignore this comment.*/\n"
-        "int main() {\n"
+        "int main/*Ignore this comment*/ /*and this one*/() {\n"
         "\treturn/*Ignore this comment*/2017;\n"
-        "}"
+        "}/*Ignore this comment*/"
     );
     token_t *token = scanner_next(scanner); // int
     assert_true(TOK_INT == token->kind);
@@ -183,6 +189,7 @@ void test_scanner_next_skips_block_comment() {
     token = scanner_next(scanner); // main
     token_destroy(token);
     token = scanner_next(scanner); // (
+    assert_true(TOK_LPAREN == token->kind);
     token_destroy(token);
     token = scanner_next(scanner); // )
     token_destroy(token);
@@ -199,5 +206,11 @@ void test_scanner_next_skips_block_comment() {
     token = scanner_next(scanner); // }
     assert_true(TOK_RBRACE == token->kind);
     token_destroy(token);
+    // Keep asking for tokens--should always get EOF.
+    for (size_t idx = 0; idx < 5; idx++) {
+        token = scanner_next(scanner); // EOF
+        assert_true(TOK_EOF == token->kind);
+        token_destroy(token);
+    }
     scanner_destroy(scanner);
 }
