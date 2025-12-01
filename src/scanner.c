@@ -161,7 +161,7 @@ token_t *scanner_next(scanner_t *scanner) {
         scanner->loc.column++;
         scanner->idx++;
     } else if (0 == strncmp(
-            scanner->text + scanner->idx, "int", strlen("int"))) {
+            scanner->text + scanner->idx, "int", strlen("int"))) { // TODO need to make sure there is a space or another token after, not alphanumeric characters
         token->kind = TOK_INT;
         scanner->loc.column += strlen("int");
         scanner->idx += strlen("int");

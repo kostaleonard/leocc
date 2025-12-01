@@ -66,6 +66,8 @@ int main(int argc, char **argv) {
         cmocka_unit_test(test_scanner_all_tokenizes_several_keywords),
         cmocka_unit_test(test_scanner_all_skips_whitespace),
         cmocka_unit_test(test_scanner_all_tokenizes_simple_program),
+        cmocka_unit_test(test_scanner_next_skips_comment),
+        cmocka_unit_test(test_scanner_next_skips_block_comment),
         // test_parser.h
         cmocka_unit_test(test_parse_fails_on_invalid_input),
         cmocka_unit_test(test_parse_single_function_declaration),

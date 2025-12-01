@@ -139,3 +139,65 @@ void test_scanner_all_tokenizes_simple_program() {
     list_destroy(tokens);
     scanner_destroy(scanner);
 }
+
+void test_scanner_next_skips_comment() {
+    scanner_t *scanner = scanner_create_from_text(
+        "int main() {\n"
+        "\t//Ignore this comment\n"
+        "\treturn 2017; // Ignore this comment\n"
+        "}"
+    );
+    token_t *token = scanner_next(scanner); // int
+    token_destroy(token);
+    token = scanner_next(scanner); // main
+    token_destroy(token);
+    token = scanner_next(scanner); // (
+    token_destroy(token);
+    token = scanner_next(scanner); // )
+    token_destroy(token);
+    token = scanner_next(scanner); // {
+    token_destroy(token);
+    token = scanner_next(scanner); // return
+    assert_true(TOK_RETURN == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // 2017
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    token_destroy(token);
+    token = scanner_next(scanner); // }
+    assert_true(TOK_RBRACE == token->kind);
+    token_destroy(token);
+    scanner_destroy(scanner);
+}
+
+void test_scanner_next_skips_block_comment() {
+    scanner_t *scanner = scanner_create_from_text(
+        "/**Ignore this comment.*/\n"
+        "int main() {\n"
+        "\treturn/*Ignore this comment*/2017;\n"
+        "}"
+    );
+    token_t *token = scanner_next(scanner); // int
+    assert_true(TOK_INT == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // main
+    token_destroy(token);
+    token = scanner_next(scanner); // (
+    token_destroy(token);
+    token = scanner_next(scanner); // )
+    token_destroy(token);
+    token = scanner_next(scanner); // {
+    token_destroy(token);
+    token = scanner_next(scanner); // return
+    token_destroy(token);
+    token = scanner_next(scanner); // 2017
+    assert_true(TOK_INT_LITERAL == token->kind);
+    assert_true(2017 == token->data.int_value);
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    token_destroy(token);
+    token = scanner_next(scanner); // }
+    assert_true(TOK_RBRACE == token->kind);
+    token_destroy(token);
+    scanner_destroy(scanner);
+}

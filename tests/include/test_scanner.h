@@ -11,4 +11,8 @@ void test_scanner_all_skips_whitespace();
 
 void test_scanner_all_tokenizes_simple_program();
 
+void test_scanner_next_skips_comment();
+
+void test_scanner_next_skips_block_comment();
+
 #endif  // TESTS_INCLUDE_TEST_SCANNER_H_
