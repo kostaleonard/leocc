@@ -197,6 +197,10 @@ token_t *scanner_next(scanner_t *scanner) {
         token->kind = TOK_SEMICOLON;
         scanner->loc.column++;
         scanner->idx++;
+    } else if (c == '=') {
+        token->kind = TOK_EQ;
+        scanner->loc.column++;
+        scanner->idx++;
     } else if (0 == strncmp(
             scanner->text + scanner->idx, "int", strlen("int"))) { // TODO need to make sure there is a space or another token after, not alphanumeric characters
         token->kind = TOK_INT;
@@ -212,6 +216,14 @@ token_t *scanner_next(scanner_t *scanner) {
     } else if (isalpha(c)) {
         scan_identifier(scanner, token);
     } else {
+        fprintf(
+            stderr,
+            "%s:%lld:%lld: error: Unexpected scan char: %c\n",
+            scanner->loc.filename,
+            scanner->loc.line,
+            scanner->loc.column,
+            c
+        );
         Throw(FAILURE_INVALID_CHARACTER);
     }
     return token;

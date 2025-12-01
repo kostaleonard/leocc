@@ -214,3 +214,103 @@ void test_scanner_next_skips_block_comment() {
     }
     scanner_destroy(scanner);
 }
+
+void test_scanner_next_tokenizes_assignment() {
+    scanner_t *scanner = scanner_create_from_text(
+        "int main() {\n"
+        "    int x = 2017;\n"
+        "    return x;\n"
+        "}\n"
+    );
+    token_t *token = scanner_next(scanner); // int
+    token_destroy(token);
+    token = scanner_next(scanner); // main
+    token_destroy(token);
+    token = scanner_next(scanner); // (
+    token_destroy(token);
+    token = scanner_next(scanner); // )
+    token_destroy(token);
+    token = scanner_next(scanner); // {
+    token_destroy(token);
+    token = scanner_next(scanner); // int
+    assert_true(TOK_INT == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // x
+    assert_true(TOK_IDENTIFIER == token->kind);
+    assert_true(0 == strcmp(token->data.ident, "x"));
+    token_destroy(token);
+    token = scanner_next(scanner); // =
+    assert_true(TOK_EQ == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // 2017
+    assert_true(TOK_INT_LITERAL == token->kind);
+    assert_true(2017 == token->data.int_value);
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    token_destroy(token);
+    scanner_destroy(scanner);
+}
+
+void test_scanner_next_tokenizes_keywords() {
+    scanner_t *scanner = scanner_create_from_text(
+        "int main() {\n"
+        "    int intx = 2017;\n"
+        "    int int_y;\n"
+        "    int;\n"
+        "    return returnx;\n"
+        "}\n"
+    );
+    token_t *token = scanner_next(scanner); // int
+    token_destroy(token);
+    token = scanner_next(scanner); // main
+    token_destroy(token);
+    token = scanner_next(scanner); // (
+    token_destroy(token);
+    token = scanner_next(scanner); // )
+    token_destroy(token);
+    token = scanner_next(scanner); // {
+    token_destroy(token);
+    token = scanner_next(scanner); // int
+    assert_true(TOK_INT == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // intx
+    assert_true(TOK_IDENTIFIER == token->kind);
+    assert_true(0 == strcmp(token->data.ident, "intx"));
+    token_destroy(token);
+    token = scanner_next(scanner); // =
+    assert_true(TOK_EQ == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // 2017
+    assert_true(TOK_INT_LITERAL == token->kind);
+    assert_true(2017 == token->data.int_value);
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    token_destroy(token);
+    token = scanner_next(scanner); // int
+    assert_true(TOK_INT == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // int_y
+    assert_true(TOK_IDENTIFIER == token->kind);
+    assert_true(0 == strcmp(token->data.ident, "intx"));
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    assert_true(TOK_SEMICOLON == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // int
+    assert_true(TOK_INT == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    assert_true(TOK_SEMICOLON == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // return
+    assert_true(TOK_RETURN == token->kind);
+    token_destroy(token);
+    token = scanner_next(scanner); // returnx
+    assert_true(TOK_IDENTIFIER == token->kind);
+    assert_true(0 == strcmp(token->data.ident, "returnx"));
+    token_destroy(token);
+    token = scanner_next(scanner); // ;
+    assert_true(TOK_SEMICOLON == token->kind);
+    token_destroy(token);
+    scanner_destroy(scanner);
+}

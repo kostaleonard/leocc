@@ -17,6 +17,7 @@ typedef enum token_kind_t {
     TOK_INT_LITERAL,
     TOK_SEMICOLON,
     TOK_RBRACE,
+    TOK_EQ,
     TOK_EOF,
 } token_kind_t;
 

@@ -15,4 +15,8 @@ void test_scanner_next_skips_comment();
 
 void test_scanner_next_skips_block_comment();
 
+void test_scanner_next_tokenizes_assignment();
+
+void test_scanner_next_tokenizes_keywords();
+
 #endif  // TESTS_INCLUDE_TEST_SCANNER_H_
