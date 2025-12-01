@@ -111,7 +111,7 @@ static void scanner_skip_whitespace_and_comments(scanner_t *scanner) {
                 scanner->loc.column++;
                 scanner->idx++;
             }
-            if (scanner->text[scanner->idx] == '\0') {
+            if ('\0' == scanner->text[scanner->idx]) {
                 fprintf(
                     stderr,
                     "%s:%lld:%lld: error: Reached EOF before */\n",
@@ -135,6 +135,9 @@ static void scanner_skip_whitespace_and_comments(scanner_t *scanner) {
  * @brief Fills the numeric token and advances scanner.
  */
 static void scan_num(scanner_t *scanner, token_t *token) {
+    if (NULL == scanner || NULL == token) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
     char *endptr;
     int num = strtol(scanner->text + scanner->idx, &endptr, 10);
     token->kind = TOK_INT_LITERAL;
@@ -145,23 +148,40 @@ static void scan_num(scanner_t *scanner, token_t *token) {
 }
 
 /**
- * @brief Fills the identifier token and advances scanner.
+ * @brief Fills the keyword or identifier token and advances scanner.
  */
-static void scan_identifier(scanner_t *scanner, token_t *token) {
+static void scan_keyword_or_identifier(scanner_t *scanner, token_t *token) {
+    if (NULL == scanner ||
+        NULL == token ||
+        isdigit(scanner->text[scanner->idx])) {
+        Throw(FAILURE_INVALID_INPUT);
+    }
     size_t start = scanner->idx;
     size_t end = start;
-    while (isalnum(scanner->text[end])) {
+    while (isalnum(scanner->text[end]) || '_' == scanner->text[end]) {
         end++;
     }
-    token->kind = TOK_IDENTIFIER;
-    token->data.ident = calloc(end - start + 1, sizeof(char));
-    if (NULL == token->data.ident) {
-        Throw(FAILURE_COULD_NOT_MALLOC);
+    size_t len = end - start;
+    // Check if we have a keyword.
+    if (3 == len && 0 == strncmp(scanner->text + start, "int", len)) {
+        token->kind = TOK_INT;
+        scanner->loc.column += len;
+        scanner->idx += len;
+    } else if (6 == len && 0 == strncmp(scanner->text + start, "return", len)) {
+        token->kind = TOK_RETURN;
+        scanner->loc.column += len;
+        scanner->idx += len;
+    } else {
+        // If it's not a keyword, then it's an identifier.
+        token->kind = TOK_IDENTIFIER;
+        token->data.ident = calloc(len + 1, sizeof(char));
+        if (NULL == token->data.ident) {
+            Throw(FAILURE_COULD_NOT_MALLOC);
+        }
+        strncpy(token->data.ident, scanner->text + start, len);
+        scanner->idx += len;
+        scanner->loc.column += len;
     }
-    strncpy(token->data.ident, scanner->text + start, end - start);
-    size_t idx_diff = end - start;
-    scanner->idx += idx_diff;
-    scanner->loc.column += idx_diff;
 }
 
 token_t *scanner_next(scanner_t *scanner) {
@@ -175,46 +195,36 @@ token_t *scanner_next(scanner_t *scanner) {
     }
     token->loc = source_loc_dup(scanner->loc);
     char c = scanner->text[scanner->idx];
-    if (c == '\0') {
+    if ('\0' == c) {
         token->kind = TOK_EOF;
-    } else if (c == '(') {
+    } else if ('(' == c) {
         token->kind = TOK_LPAREN;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (c == ')') {
+    } else if (')' == c) {
         token->kind = TOK_RPAREN;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (c == '{') {
+    } else if ('{' == c) {
         token->kind = TOK_LBRACE;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (c == '}') {
+    } else if ('}' == c) {
         token->kind = TOK_RBRACE;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (c == ';') {
+    } else if (';' == c) {
         token->kind = TOK_SEMICOLON;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (c == '=') {
+    } else if ('=' == c) {
         token->kind = TOK_EQ;
         scanner->loc.column++;
         scanner->idx++;
-    } else if (0 == strncmp(
-            scanner->text + scanner->idx, "int", strlen("int"))) { // TODO need to make sure there is a space or another token after, not alphanumeric characters
-        token->kind = TOK_INT;
-        scanner->loc.column += strlen("int");
-        scanner->idx += strlen("int");
-    } else if (0 == strncmp(
-            scanner->text + scanner->idx, "return", strlen("return"))) {
-        token->kind = TOK_RETURN;
-        scanner->loc.column += strlen("return");
-        scanner->idx += strlen("return");
     } else if (isdigit(c)) {
         scan_num(scanner, token);
-    } else if (isalpha(c)) {
-        scan_identifier(scanner, token);
+    } else if (isalpha(c) || '_' == c) {
+        scan_keyword_or_identifier(scanner, token);
     } else {
         fprintf(
             stderr,
