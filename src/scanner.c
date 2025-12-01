@@ -117,8 +117,7 @@ static void scanner_skip_whitespace_and_comments(scanner_t *scanner) {
                     "%s:%lld:%lld: error: Reached EOF before */\n",
                     scanner->loc.filename,
                     scanner->loc.line,
-                    scanner->loc.column
-                );
+                    scanner->loc.column);
                 Throw(FAILURE_SCANNER_ERROR);
             }
             // Skip */
@@ -232,8 +231,7 @@ token_t *scanner_next(scanner_t *scanner) {
             scanner->loc.filename,
             scanner->loc.line,
             scanner->loc.column,
-            c
-        );
+            c);
         Throw(FAILURE_INVALID_CHARACTER);
     }
     return token;
