@@ -30,20 +30,12 @@ typedef enum {
 
 typedef enum operator_t {
     OP_NONE = 0,
-
-    /*-----------------------------*
-     *   Primary / Postfix Ops     *
-     *-----------------------------*/
     OP_POST_INC,        // expr++
     OP_POST_DEC,        // expr--
     OP_FUNC_CALL,       // expr(args)
     OP_INDEX,           // expr[expr]
     OP_MEMBER,          // expr.member
     OP_PTR_MEMBER,      // expr->member
-
-    /*-----------------------------*
-     *        Unary Operators      *
-     *-----------------------------*/
     OP_PRE_INC,         // ++expr
     OP_PRE_DEC,         // --expr
     OP_POSITIVE,        // +expr
@@ -54,66 +46,26 @@ typedef enum operator_t {
     OP_DEREF,           // *expr
     OP_SIZEOF,          // sizeof (handled specially)
     OP_ALIGNOF,         // _Alignof / alignof (C11/C23)
-
-    /*-----------------------------*
-     *      Cast / Convert Ops     *
-     *-----------------------------*/
     OP_CAST,            // (type)expr
-
-    /*-----------------------------*
-     *   Multiplicative Operators  *
-     *-----------------------------*/
     OP_MUL,             // *
     OP_DIV,             // /
     OP_MOD,             // %
-
-    /*-----------------------------*
-     *    Additive Operators       *
-     *-----------------------------*/
     OP_ADD,             // +
     OP_SUB,             // -
-
-    /*-----------------------------*
-     *   Bitwise Shift Operators   *
-     *-----------------------------*/
     OP_SHL,             // <<
     OP_SHR,             // >>
-
-    /*-----------------------------*
-     *     Relational Operators    *
-     *-----------------------------*/
     OP_LT,              // <
     OP_GT,              // >
     OP_LE,              // <=
     OP_GE,              // >=
-
-    /*-----------------------------*
-     *     Equality Operators      *
-     *-----------------------------*/
     OP_EQ,              // ==
     OP_NEQ,             // !=
-
-    /*-----------------------------*
-     *    Bitwise Operators        *
-     *-----------------------------*/
     OP_BIT_AND,         // &
     OP_BIT_XOR,         // ^
     OP_BIT_OR,          // |
-
-    /*-----------------------------*
-     *  Logical AND / OR Operators *
-     *-----------------------------*/
     OP_LOGICAL_AND,     // &&
     OP_LOGICAL_OR,      // ||
-
-    /*-----------------------------*
-     *    Ternary Operator         *
-     *-----------------------------*/
-    OP_CONDITIONAL,     // ?:
-
-    /*-----------------------------*
-     *    Assignment Operators     *
-     *-----------------------------*/
+    OP_CONDITIONAL,     // ? :
     OP_ASSIGN,          // =
     OP_ADD_ASSIGN,      // +=
     OP_SUB_ASSIGN,      // -=
@@ -125,10 +77,6 @@ typedef enum operator_t {
     OP_AND_ASSIGN,      // &=
     OP_XOR_ASSIGN,      // ^=
     OP_OR_ASSIGN,       // |=
-
-    /*-----------------------------*
-     *  Comma Operator (lowest)    *
-     *-----------------------------*/
     OP_COMMA,           // ,
 } operator_t;
 
