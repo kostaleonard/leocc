@@ -73,6 +73,7 @@ int main(int argc, char **argv) {
         // test_parser.h
         cmocka_unit_test(test_parse_fails_on_invalid_input),
         cmocka_unit_test(test_parse_single_function_declaration),
+        cmocka_unit_test(test_parse_variables_and_binary_op),
         // test_string_builder.h
         cmocka_unit_test(
             test_string_builder_create_returns_empty_string_builder),

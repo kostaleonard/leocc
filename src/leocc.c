@@ -22,6 +22,7 @@ static void compile_translation_unit(char *filename) {
     preprocessor_t *pp = preprocessor_create(scanner);
     parser_t *parser = parser_create(pp);
     ast_node_t *ast = parse_translation_unit(parser);
+    ast_node_print(ast); // TODO remove
     char *assembly_prog = codegen_translation_unit(ast);
     write_file("leocc_out.asm", assembly_prog);
     system("nasm -f win64 leocc_out.asm -o leocc_out.obj");
