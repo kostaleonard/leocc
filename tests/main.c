@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
         // test_codegen.h
         cmocka_unit_test(test_codegen_translation_unit_fails_on_invalid_input),
         cmocka_unit_test(test_codegen_translation_unit_simple_program),
+        cmocka_unit_test(test_codegen_translation_unit_variables_and_binary_op),
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

@@ -52,3 +52,26 @@ void test_codegen_translation_unit_simple_program() {
     ast_node_destroy(ast);
     parser_destroy(parser);
 }
+
+void test_codegen_translation_unit_variables_and_binary_op() {
+    // TODO remove assembly sketch
+    /*
+    default rel
+    global main
+
+    section .text
+
+    main:
+        push rbp
+        mov rbp, rsp
+        sub rsp, 0x20
+        mov [rbp - 0x4], 2025
+        mov [rbp - 0x8], -8
+        mov eax, [rbp - 0x4]
+        add eax, [rbp - 0x8]
+        leave (aka mov rsp, rbp; pop rbp) -- on Windows, gcc seems to just add back the space given for the stack frame directly: add rsp, 0x20; pop rbp
+        ret
+    */
+    // TODO
+    assert_true(false);
+}
